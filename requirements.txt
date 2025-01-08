@@ -1,0 +1,11 @@
+build
+cached-property
+chevron
+click
+frozendict
+genanki
+packaging
+pyproject_hooks
+PyYAML
+setuptools
+wheel
