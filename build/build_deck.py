@@ -16,16 +16,14 @@ with open(os.path.join(TEMPLATES_DIR, "front.html"), "r") as file:
     front_template = file.read()
 with open(os.path.join(TEMPLATES_DIR, "back.html"), "r") as file:
     back_template = file.read()
-with open(os.path.join(TEMPLATES_DIR, "styles.css"), "r") as file:
+with open(os.path.join(CSS_DIR, "styles.css"), "r") as file:
     css_styles = file.read()
-
-# Load external JavaScript and inject it into the templates
-with open(os.path.join(TEMPLATES_DIR, "scripts.js"), "r") as f:
-    js_script = f.read()
+with open(os.path.join(JS_DIR, "scripts.js"), "r") as file:
+    js_scripts = file.read()
 
 # Inject external JavaScrip into the templates
-front_template += f"\n<script>{js_script}</script>"
-back_template += f"\n<script>{js_script}</script>"
+front_template += f"\n<script>{js_scripts}</script>"
+back_template += f"\n<script>{js_scripts}</script>"
 
 # Define the model
 model_id = 1607392319
