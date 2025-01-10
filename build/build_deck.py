@@ -20,6 +20,8 @@ with open(os.path.join(CSS_DIR, "styles.css"), "r") as file:
     css_styles = file.read()
 with open(os.path.join(JS_DIR, "scripts.js"), "r") as file:
     js_scripts = file.read()
+with open(os.path.join(DATA_DIR, "cards.csv"), "r") as file:
+    data = file.read()
 
 # Inject external JavaScrip into the templates
 front_template += f"\n<script>{js_scripts}</script>"
@@ -49,8 +51,8 @@ deck_id = 2059400110
 my_deck = genanki.Deck(deck_id, "Sample Deck")
 
 # Add notes from CSV
-with open(DATA_DIR, "r") as csvfile:
-    reader = csv.DictReader(csvfile)
+with open(os.path.join(DATA_DIR, "cards.csv"), "r") as file:
+    reader = csv.DictReader(file)
     for row in reader:
         note = genanki.Note(
             model=my_model,
@@ -58,7 +60,9 @@ with open(DATA_DIR, "r") as csvfile:
         )
         my_deck.add_note(note)
 
+
 # Save the deck
-os.makedirs(os.path.dirname(OUTPUT_DIR), exist_ok=True)
-genanki.Package(my_deck).write_to_file(OUTPUT_DIR)
-print(f"Deck created: {OUTPUT_DIR}")
+output_path = os.path.join(OUTPUT_DIR, "anki_deck.apkg")
+os.makedirs(OUTPUT_DIR, exist_ok=True)  # Ensure the directory exists
+genanki.Package(my_deck).write_to_file(output_path)
+print(f"Deck created: {output_path}")
