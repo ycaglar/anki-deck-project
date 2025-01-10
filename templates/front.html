@@ -1,5 +1,102 @@
-<div class="card">
-  <h1>{{Question}}</h1>
-  <button id="reveal-answer">Reveal Answer</button>
-  <div id="answer" style="display: none;">{{Answer}}</div>
+<!-- CodeMirror CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.61.0/codemirror.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.61.0/theme/dracula.min.css" />
+
+<!-- CodeMirror JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.61.0/codemirror.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.61.0/mode/python/python.min.js"></script>
+
+<!-- Front Content -->
+
+<p>{{Front}}</p>
+
+<div class="dropdown-container">
+  <div class="dropdown">
+    <label for="time-complexity">Time Complexity</label>
+    <select name="dropdown-list" id="time-complexity">
+      <option value="">Select</option>
+      <option value="constant">&#119874;(1): Constant</option>
+      <option value="logarithmic">&#119874;(log₂n): Logarithmic</option>
+      <option value="polylogarithmic">
+        &#119874;((log₂n)ᶜ): Polylogarithmic
+      </option>
+      <option value="linear">&#119874;(n): Linear</option>
+      <option value="linearithmic">&#119874;(n log₂n): Linearithmic</option>
+      <option value="quadratic">&#119874;(n²): Quadratic</option>
+      <option value="cubic">&#119874;(n³): Cubic</option>
+      <option value="polynomial">&#119874;(nᶜ): Polynomial</option>
+      <option value="exponential">&#119874;(2ⁿ): Exponential</option>
+      <option value="factorial">&#119874;(n!): Factorial</option>
+    </select>
+  </div>
+  <div class="dropdown">
+    <label for="space-complexity">Space Complexity</label>
+    <select name="dropdown-list" id="time-complexity">
+      <option value="">Select</option>
+      <option value="constant">&#119874;(1): Constant</option>
+      <option value="logarithmic">&#119874;(log₂n): Logarithmic</option>
+      <option value="polylogarithmic">
+        &#119874;((log₂n)ᶜ): Polylogarithmic
+      </option>
+      <option value="linear">&#119874;(n): Linear</option>
+      <option value="linearithmic">&#119874;(n log₂n): Linearithmic</option>
+      <option value="quadratic">&#119874;(n²): Quadratic</option>
+      <option value="cubic">&#119874;(n³): Cubic</option>
+      <option value="polynomial">&#119874;(nᶜ): Polynomial</option>
+      <option value="exponential">&#119874;(2ⁿ): Exponential</option>
+      <option value="factorial">&#119874;(n!): Factorial</option>
+    </select>
+  </div>
+  <!-- <div class="dropdown">
+      <label for="paradigm">Paradigm</label>
+      <select name="dropdown-list" id="paradigm">
+      </select>
+    </div> -->
 </div>
+
+<!-- Code Editor Container -->
+<div id="code-editor-container">
+  <textarea id="code-input" name="code"></textarea>
+</div>
+
+<script>
+  var isAnkiPc21 = typeof pycmd !== 'undefined';
+  var typedAnswer = '';
+
+  // Initialize CodeMirror editor for the textarea
+  var editor = CodeMirror.fromTextArea(
+    document.getElementById('code-input'),
+    {
+      lineNumbers: true,
+      mode: 'python',
+      theme: 'dracula',
+      indentUnit: 4,
+      tabSize: 4,
+    }
+  );
+
+  // Persist the typed input
+  editor.on('change', (instance) => {
+    typedAnswer = instance.getValue();
+    if (!isAnkiPc21) {
+      // AnkiDroid, AnkiMobile, AnkiWeb
+      try {
+        sessionStorage.setItem('typedAnswer', JSON.stringify(typedAnswer));
+      } catch (error) {
+        console.log(`${error.name}: ${error.message}`);
+      }
+    }
+  });
+
+  // Resize the editor
+  function resizeEditor() {
+    // Calculate available height for the editor dynamically
+    const container = document.getElementById('code-editor-container');
+    const availableHeight =
+      window.innerHeight - container.getBoundingClientRect().top; // Remaining space from the top of the container to the viewport bottom
+    editor.setSize('100%', availableHeight); // Set CodeMirror's size dynamically
+  }
+
+  resizeEditor();
+  window.addEventListener('resize', resizeEditor);
+</script>
