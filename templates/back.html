@@ -1,4 +1,138 @@
-<div class="card">
-  <h1>{{FrontSide}}</h1>
-  <div>{{Answer}}</div>
+<!-- CodeMirror CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.61.0/codemirror.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.61.0/theme/dracula.min.css" />
+
+<!-- CodeMirror JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.61.0/codemirror.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.61.0/mode/python/python.min.js"></script>
+
+<!-- Front Content -->
+<p>{{Front}}</p>
+
+<div id="result-container">
+  <p id="result-message"></p>
 </div>
+
+<div class="code-editor-container" id="split-view">
+  <div class="user-code-container">
+    <h4>Your Code:</h4>
+    <textarea id="user-code"></textarea>
+  </div>
+  <div class="correct-code-container">
+    <h4>Correct Code:</h4>
+    <textarea id="correct-code"></textarea>
+  </div>
+</div>
+
+<script>
+  // Decode HTML entities
+  function decodeHTMLEntities(text) {
+    let txt = document.createElement('textarea');
+    txt.innerHTML = text;
+    return txt.value;
+  }
+
+  let userAnswer = '';
+  let correctAnswerRaw = `{{Back}}`; // Insert the correct code here
+  let correctAnswer = decodeHTMLEntities(correctAnswerRaw);
+
+  // Retrieve the typed answer from the front side
+  if (typeof typedAnswer !== 'undefined') {
+    // Anki 2.1 (PC)
+    userAnswer = typedAnswer;
+  } else {
+    // AnkiDroid, AnkiMobile, AnkiWeb
+    try {
+      userAnswer = JSON.parse(sessionStorage.getItem('typedAnswer'));
+      sessionStorage.removeItem('typedAnswer');
+    } catch (error) {
+      userAnswer = `${error.name}: ${error.message}`;
+    }
+  }
+
+  // function normalizeCode(code) {
+  //   return code
+  //     .replace(/\t/g, '    ') // Replace tabs with 4 spaces
+  //     .split('\n') // Split into lines
+  //     .map((line) => line.trimEnd()) // Remove trailing spaces
+  //     .filter((line) => line.trim() !== '') // Remove empty lines
+  //     .join('\n'); // Join lines back
+  // }
+
+  function normalizeCode(code) {
+    return code
+      .replace(/\t/g, '    ') // Replace tabs with 4 spaces
+      .split('\n')
+      .filter((line) => line.trim() !== '')
+      .join('\n');
+  }
+
+  // function normalizeCode(code) {
+  //   return code
+  //     .split('\n')
+  //     .filter((line) => line.trim() !== '')
+  //     .join('\n');
+  // }
+
+  // Compare the user's answer with the correct answer
+  if (normalizeCode(userAnswer) === normalizeCode(correctAnswer)) {
+    document.getElementById('result-message').textContent =
+      'Correct answer!';
+    document.getElementById('result-message').style.color = 'green';
+
+    // Hide the split view for correct answers
+    document.getElementById('split-view').style.display = 'none';
+  } else {
+    document.getElementById('result-message').textContent =
+      'Answer is incorrect.';
+    document.getElementById('result-message').style.color = 'red';
+
+    // Show the split view for incorrect answers
+    document.getElementById('split-view').style.display = 'flex';
+
+    // Initialize CodeMirror editors for split view
+    let userCodeEditor = CodeMirror.fromTextArea(
+      document.getElementById('user-code'),
+      {
+        lineNumbers: true,
+        mode: 'python',
+        theme: 'dracula',
+        indentUnit: 4,
+        tabSize: 4,
+        readOnly: true,
+      }
+    );
+    let correctCodeEditor = CodeMirror.fromTextArea(
+      document.getElementById('correct-code'),
+      {
+        lineNumbers: true,
+        mode: 'python',
+        theme: 'dracula',
+        indentUnit: 4,
+        tabSize: 4,
+        readOnly: true,
+      }
+    );
+
+    // Set values in the editors
+    userCodeEditor.setValue(userAnswer);
+    correctCodeEditor.setValue(correctAnswer);
+    function resizeEditor() {
+      const container = document.querySelector('.user-code-container');
+      const label = document.querySelector('.user-code-container > h4');
+      const labelHeight = label.getBoundingClientRect().height;
+      const availableHeight =
+        window.innerHeight -
+        container.getBoundingClientRect().top -
+        labelHeight;
+      console.log(labelHeight);
+      userCodeEditor.setSize('100%', availableHeight);
+      correctCodeEditor.setSize('100%', availableHeight);
+    }
+
+    resizeEditor();
+    window.addEventListener('resize', resizeEditor);
+  }
+
+  // End
+</script>
