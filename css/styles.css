@@ -140,3 +140,12 @@ select {
   flex: 1;
 } */
 /* Back: End */
+
+/* Test Features: Start */
+body {
+  display: grid;
+  grid-auto-flow: row;
+  grid-template-rows: auto auto 1fr;
+  grid-template-columns: 1fr;
+}
+/* Test Features: End */
