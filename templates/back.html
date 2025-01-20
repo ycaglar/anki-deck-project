@@ -7,7 +7,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.61.0/mode/python/python.min.js"></script>
 
 <!-- Front Content -->
-<p>{{Front}}</p>
+<p>{{front}}</p>
 
 <div id="result-container">
   <p id="result-message"></p>
@@ -33,7 +33,7 @@
   }
 
   let userAnswer = '';
-  let correctAnswerRaw = `{{Back}}`; // Insert the correct code here
+  let correctAnswerRaw = `{{back}}`; // Insert the correct code here
   let correctAnswer = decodeHTMLEntities(correctAnswerRaw);
 
   // Retrieve the typed answer from the front side
