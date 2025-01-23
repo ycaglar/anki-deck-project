@@ -16,7 +16,7 @@ This project is a custom Anki deck designed to help users interactively practice
 - Breadth-First Search (BFS)
 - Binary Search (BS)
 - Dijkstra's Algorithm
-- (Add more algorithms as necessary.)
+- (Add more algorithms are being implemented.)
 
 ## How to Use
 1. Import the deck into your Anki app.
@@ -31,10 +31,15 @@ This project is a custom Anki deck designed to help users interactively practice
 
 ## Installation
 1. Clone the repository:
-   ```bash
+```bash
    git clone https://github.com/yourusername/anki-deck-algorithms.git
 ```
-
+2. Open a terminal at the project folder
+3. Run the build script
+```bash
+python3 build/build_deck.py
+```
+4. Import the generated unki deck which is located under the output folder within the project directory.
 
 <!-- ![Screenshot](./) -->
 
