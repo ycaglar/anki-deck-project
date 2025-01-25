@@ -1,5 +1,8 @@
+<!-- Generic CSS -->
+<link rel="stylesheet" href="../css/styles.css">
+
 <!-- CodeMirror CSS -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.61.0/codemirror.min.css" />
+<link rel="stylesheet" href="../css/codemirror.css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.61.0/theme/dracula.min.css" />
 
 <!-- CodeMirror JS -->
@@ -50,15 +53,6 @@
     }
   }
 
-  // function normalizeCode(code) {
-  //   return code
-  //     .replace(/\t/g, '    ') // Replace tabs with 4 spaces
-  //     .split('\n') // Split into lines
-  //     .map((line) => line.trimEnd()) // Remove trailing spaces
-  //     .filter((line) => line.trim() !== '') // Remove empty lines
-  //     .join('\n'); // Join lines back
-  // }
-
   function normalizeCode(code) {
     return code
       .replace(/\t/g, '    ') // Replace tabs with 4 spaces
@@ -66,13 +60,6 @@
       .filter((line) => line.trim() !== '')
       .join('\n');
   }
-
-  // function normalizeCode(code) {
-  //   return code
-  //     .split('\n')
-  //     .filter((line) => line.trim() !== '')
-  //     .join('\n');
-  // }
 
   // Compare the user's answer with the correct answer
   if (normalizeCode(userAnswer) === normalizeCode(correctAnswer)) {
@@ -114,25 +101,24 @@
       }
     );
 
-    // Set values in the editors
-    userCodeEditor.setValue(userAnswer);
-    correctCodeEditor.setValue(correctAnswer);
-    function resizeEditor() {
-      const container = document.querySelector('.user-code-container');
-      const label = document.querySelector('.user-code-container > h4');
-      const labelHeight = label.getBoundingClientRect().height;
-      const availableHeight =
-        window.innerHeight -
-        container.getBoundingClientRect().top -
-        labelHeight;
-      console.log(labelHeight);
-      userCodeEditor.setSize('100%', availableHeight);
-      correctCodeEditor.setSize('100%', availableHeight);
-    }
+    //   // Set values in the editors
+    //   userCodeEditor.setValue(userAnswer);
+    //   correctCodeEditor.setValue(correctAnswer);
+    //   function resizeEditor() {
+    //     const container = document.querySelector('.user-code-container');
+    //     const label = document.querySelector('.user-code-container > h4');
+    //     const labelHeight = label.getBoundingClientRect().height;
+    //     const availableHeight =
+    //       window.innerHeight -
+    //       container.getBoundingClientRect().top -
+    //       labelHeight;
+    //     console.log(labelHeight);
+    //     userCodeEditor.setSize('100%', availableHeight);
+    //     correctCodeEditor.setSize('100%', availableHeight);
+    //   }
 
-    resizeEditor();
-    window.addEventListener('resize', resizeEditor);
+    //   resizeEditor();
+    //   window.addEventListener('resize', resizeEditor);
   }
 
-  // End
 </script>
