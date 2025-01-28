@@ -2,3 +2,5 @@
 // button.addEventListener('click', (event) => {
 //   button.style.backgroundColor = 'pink';
 // });
+
+alert('test');
