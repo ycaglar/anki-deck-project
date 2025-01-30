@@ -33,8 +33,8 @@ my_model = genanki.Model(
     model_id,
     "Custom Model",
     fields=[
-        {"name": "front"},
-        {"name": "back"},
+        {"name": "Front"},
+        {"name": "Back"},
     ],
     templates=[
         {
@@ -56,7 +56,7 @@ with open(os.path.join(DATA_DIR, "cards.csv"), "r") as file:
     for row in reader:
         note = genanki.Note(
             model=my_model,
-            fields=[row["front"], row["back"]],
+            fields=[row["Front"], row["Back"]],
         )
         my_deck.add_note(note)
 
