@@ -1,7 +1,7 @@
-import csv
 import os
 
 import genanki
+import yaml  # Import YAML parser
 
 # Define paths
 PROJECT_ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -20,10 +20,8 @@ with open(os.path.join(CSS_DIR, "styles.css"), "r") as file:
     css_styles = file.read()
 with open(os.path.join(JS_DIR, "scripts.js"), "r") as file:
     js_scripts = file.read()
-with open(os.path.join(DATA_DIR, "cards.csv"), "r") as file:
-    data = file.read()
 
-# Inject external JavaScrip into the templates
+# Inject external JavaScript into the templates
 front_template += f"\n<script>{js_scripts}</script>"
 back_template += f"\n<script>{js_scripts}</script>"
 
@@ -50,19 +48,22 @@ my_model = genanki.Model(
 deck_id = 2059400110
 my_deck = genanki.Deck(deck_id, "Sample Deck")
 
-# Add notes from CSV
-with open(os.path.join(DATA_DIR, "cards.csv"), "r") as file:
-    reader = csv.DictReader(file)
-    for row in reader:
-        note = genanki.Note(
-            model=my_model,
-            fields=[row["Front"], row["Back"]],
-        )
-        my_deck.add_note(note)
+# Load notes from YAML instead of CSV
+yaml_file_path = os.path.join(DATA_DIR, "cards.yaml")
 
+with open(yaml_file_path, "r", encoding="utf-8") as file:
+    cards = yaml.safe_load(file)
+
+for card in cards:
+    note = genanki.Note(
+        model=my_model,
+        fields=[card["front"], card["back"]],
+    )
+    my_deck.add_note(note)
 
 # Save the deck
 output_path = os.path.join(OUTPUT_DIR, "anki_deck.apkg")
 os.makedirs(OUTPUT_DIR, exist_ok=True)  # Ensure the directory exists
 genanki.Package(my_deck).write_to_file(output_path)
+
 print(f"Deck created: {output_path}")
