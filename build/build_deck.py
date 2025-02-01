@@ -1,7 +1,8 @@
+import html
 import os
 
 import genanki
-import yaml  # Import YAML parser
+import yaml
 
 # Define paths
 PROJECT_ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -54,10 +55,20 @@ yaml_file_path = os.path.join(DATA_DIR, "cards.yaml")
 with open(yaml_file_path, "r", encoding="utf-8") as file:
     cards = yaml.safe_load(file)
 
+# for card in cards:
+#     note = genanki.Note(
+#         model=my_model,
+#         fields=[card["front"], card["back"]],
+#     )
+#     my_deck.add_note(note)
+
 for card in cards:
+    front_text = html.escape(card["front"])  # Escape HTML special characters
+    back_text = html.escape(card["back"])
+
     note = genanki.Note(
         model=my_model,
-        fields=[card["front"], card["back"]],
+        fields=[front_text, back_text],
     )
     my_deck.add_note(note)
 
