@@ -1,3 +1,7 @@
+- front: 'Hello World'
+  back: |
+    print('Hello World!')
+
 - front: 'Binary Search'
   back: |
     def binary_search(nums: [int], target: int) -> int:
@@ -15,6 +19,24 @@
         
         return -1
 
-- front: 'Hello World'
+- front: 'Singly-Linked List'
   back: |
-    print('Hello World!')
+    class ListNode:
+        def __init__(self, val=0, next=None):
+            self.val = val
+            self.next = next
+
+    class SinglyLinkedList:
+
+        def reverseList(self, head: [ListNode]) -> [ListNode]:
+            l = None 
+            m = head
+            r = None
+
+            while m:
+                r = m.next
+                m.next = l
+                l = m
+                m = r
+            
+            return head
