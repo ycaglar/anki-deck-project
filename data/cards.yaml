@@ -40,3 +40,80 @@
                 m = r
             
             return head
+
+        def mergeTwoLists(self, list1: [ListNode], list2: [ListNode]) -> [ListNode]:
+            head = None
+            ptr = head
+
+            while list1 or list2:
+                if list1 and list2 and list1.val <= list2.val or list1 and not list2:
+                    node = ListNode(list1.val, None)
+                    list1 = list1.next
+                elif list1 and list2 or not list1 and list2:
+                    node = ListNode(list2.val, None)
+                    list2 = list2.next
+                if not ptr:
+                    ptr = node
+                    head = ptr
+                else:
+                    ptr.next = node
+                    ptr = ptr.next
+
+            return head
+
+          def hasCycle(self, head: Optional[ListNode]) -> bool:
+
+            ssp = head # Single step pointer
+            dsp = head # Double step pointer
+            
+            while dsp and dsp.next:
+                ssp = ssp.next
+                dsp = dsp.next.next
+            
+            if ssp == dsp:
+                return True
+            
+            return False
+
+        def removeNthFromEnd(self, head: [ListNode], n: int) -> [ListNode]:
+        
+            ptr = head
+            len = 0
+
+            while ptr:
+                len += 1
+                ptr = ptr.next
+            
+            ptr = head
+            i = 0
+
+            if len == n:
+                return head.next
+
+            while ptr and i < len - n - 1:
+                ptr = ptr.next
+                i += 1
+            
+            if ptr.next:
+                ptr.next = ptr.next.next
+            else:
+                ptr.next = None
+        
+            return head
+        
+        def mergeKLists(self, lists: [[ListNode]]) -> [ListNode]:
+            heap = []
+            for node_list in lists:
+                while node_list:
+                    heappush(heap, node_list.val)
+                    node_list = node_list.next
+            
+            head = None
+            if heap:
+                head = ptr = ListNode(heappop(heap), None)
+
+            while heap:
+                ptr.next = ListNode(heappop(heap), None)
+                ptr = ptr.next
+
+            return head
