@@ -19,6 +19,46 @@
         
         return -1
 
+- front: 'Trie'
+  back: |
+    class TrieNode:
+        def __init__(self):
+            self.children = {}
+            self.final_node = False
+
+    class Trie:
+        def __init__(self):
+            self.root = TrieNode()
+
+        def insert(self, word: str):
+            ptr = self.root
+
+            for letter in word:
+                if letter not in ptr.children:
+                    ptr.children[letter] = TrieNode()
+                ptr = ptr.children[letter]
+            ptr.final_node = True
+
+        def search(self, word: str) -&gt; bool:
+            ptr = self.root
+
+            for letter in word:
+                if letter not in ptr.children:
+                    return False
+                ptr = ptr.children[letter]
+            
+            return ptr.final_node
+
+        def starts_with(self, prefix: str) -&gt; bool:
+            ptr = self.root
+
+            for letter in prefix:
+                if letter not in ptr.children:
+                    return False
+                ptr = ptr.children[letter]
+            
+            return True
+
 - front: 'Singly-Linked List'
   back: |
     class ListNode:
