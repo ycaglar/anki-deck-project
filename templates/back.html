@@ -51,33 +51,6 @@
       return txt.value;
     }
 
-    let userAnswer = '';
-    let correctAnswerRaw = `{{Back}}`; // Insert the correct code here
-    let correctAnswer = decodeHTMLEntities(correctAnswerRaw);
-
-    // Retrieve the typed answer from the front side
-    if (typeof typedAnswer !== 'undefined') {
-      // Anki 2.1 (PC)
-      userAnswer = typedAnswer;
-    } else {
-      // AnkiDroid, AnkiMobile, AnkiWeb
-      try {
-        userAnswer = JSON.parse(sessionStorage.getItem('typedAnswer'));
-        sessionStorage.removeItem('typedAnswer');
-      } catch (error) {
-        userAnswer = `${error.name}: ${error.message}`;
-      }
-    }
-
-    // function normalizeCode(code) {
-    //   return code
-    //     .replace(/\t/g, '    ') // Replace tabs with 4 spaces
-    //     .split('\n') // Split into lines
-    //     .map((line) => line.trimEnd()) // Remove trailing spaces
-    //     .filter((line) => line.trim() !== '') // Remove empty lines
-    //     .join('\n'); // Join lines back
-    // }
-
     function normalizeCode(code) {
       return code
         .replace(/\t/g, '    ') // Replace tabs with 4 spaces
@@ -86,72 +59,85 @@
         .join('\n');
     }
 
-    // function normalizeCode(code) {
-    //   return code
-    //     .split('\n')
-    //     .filter((line) => line.trim() !== '')
-    //     .join('\n');
-    // }
+    (function () {
+      let userAnswer = '';
+      let correctAnswerRaw = `{{Back}}`; // Insert the correct code here
+      let correctAnswer = decodeHTMLEntities(correctAnswerRaw);
 
-    // Compare the user's answer with the correct answer
-    if (normalizeCode(userAnswer) === normalizeCode(correctAnswer)) {
-      document.getElementById('result-message').textContent =
-        'Correct answer!';
-      document.getElementById('result-message').style.color = 'green';
-
-      // Hide the split view for correct answers
-      document.getElementById('split-view').style.display = 'none';
-    } else {
-      document.getElementById('result-message').textContent =
-        'Answer is incorrect.';
-      document.getElementById('result-message').style.color = 'red';
-
-      // Show the split view for incorrect answers
-      document.getElementById('split-view').style.display = 'flex';
-
-      // Initialize CodeMirror editors for split view
-      let userCodeEditor = CodeMirror.fromTextArea(
-        document.getElementById('user-code'),
-        {
-          lineNumbers: true,
-          mode: 'python',
-          theme: 'dracula',
-          indentUnit: 4,
-          tabSize: 4,
-          readOnly: true,
+      // Retrieve the typed answer from the front side
+      if (typeof typedAnswer !== 'undefined') {
+        // Anki 2.1 (PC)
+        userAnswer = typedAnswer;
+      } else {
+        // AnkiDroid, AnkiMobile, AnkiWeb
+        try {
+          userAnswer = JSON.parse(sessionStorage.getItem('typedAnswer'));
+          sessionStorage.removeItem('typedAnswer');
+        } catch (error) {
+          userAnswer = `${error.name}: ${error.message}`;
         }
-      );
-      let correctCodeEditor = CodeMirror.fromTextArea(
-        document.getElementById('correct-code'),
-        {
-          lineNumbers: true,
-          mode: 'python',
-          theme: 'dracula',
-          indentUnit: 4,
-          tabSize: 4,
-          readOnly: true,
-        }
-      );
-
-      // Set values in the editors
-      userCodeEditor.setValue(userAnswer);
-      correctCodeEditor.setValue(correctAnswer);
-      function resizeEditor() {
-        const container = document.querySelector('.user-code-container');
-        const label = document.querySelector('.user-code-container > h4');
-        const labelHeight = label.getBoundingClientRect().height;
-        const availableHeight =
-          window.innerHeight -
-          container.getBoundingClientRect().top -
-          labelHeight;
-        console.log(labelHeight);
-        userCodeEditor.setSize('100%', availableHeight);
-        correctCodeEditor.setSize('100%', availableHeight);
       }
 
-      resizeEditor();
-      window.addEventListener('resize', resizeEditor);
-    }
+      // Compare the user's answer with the correct answer
+      if (normalizeCode(userAnswer) === normalizeCode(correctAnswer)) {
+        document.getElementById('result-message').textContent =
+          'Correct answer!';
+        document.getElementById('result-message').style.color = 'green';
+
+        // Hide the split view for correct answers
+        document.getElementById('split-view').style.display = 'none';
+      } else {
+        document.getElementById('result-message').textContent =
+          'Answer is incorrect.';
+        document.getElementById('result-message').style.color = 'red';
+
+        // Show the split view for incorrect answers
+        document.getElementById('split-view').style.display = 'flex';
+
+        // Initialize CodeMirror editors for split view
+        let userCodeEditor = CodeMirror.fromTextArea(
+          document.getElementById('user-code'),
+          {
+            lineNumbers: true,
+            mode: 'python',
+            theme: 'dracula',
+            indentUnit: 4,
+            tabSize: 4,
+            readOnly: true,
+          }
+        );
+        let correctCodeEditor = CodeMirror.fromTextArea(
+          document.getElementById('correct-code'),
+          {
+            lineNumbers: true,
+            mode: 'python',
+            theme: 'dracula',
+            indentUnit: 4,
+            tabSize: 4,
+            readOnly: true,
+          }
+        );
+
+        // Set values in the editors
+        userCodeEditor.setValue(userAnswer);
+        correctCodeEditor.setValue(correctAnswer);
+        function resizeEditor() {
+          const container = document.querySelector('.user-code-container');
+          const label = document.querySelector('.user-code-container > h4');
+          const labelHeight = label.getBoundingClientRect().height;
+          const availableHeight =
+            window.innerHeight -
+            container.getBoundingClientRect().top -
+            labelHeight;
+          console.log(labelHeight);
+          userCodeEditor.setSize('100%', availableHeight);
+          correctCodeEditor.setSize('100%', availableHeight);
+        }
+
+        resizeEditor();
+        window.addEventListener('resize', resizeEditor);
+      }
+    })();
 
     // End
   </script>
