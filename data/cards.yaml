@@ -154,7 +154,7 @@
 
             return head
 
-- front: 'Breadth First Search (Graph Version)'
+- front: 'Breadth First Search (Graph)'
   back: |
     from collections import deque
 
@@ -167,4 +167,26 @@
             if vertex not in visited:
                 print(vertex, end=' ')
                 visited.add(vertex)
-                queue.extend(graph.get(vertex, []))
+                queue.append(graph.get(vertex, []))
+
+- front: 'Breadth First Traversal (Tree: Level Order)'
+  back: |
+    from collections import deque
+
+    class TreeNode:
+        def __init__(self, value):
+            self.value = value
+            self.left = None
+            self.right = None
+
+    def bfs_tree(root):
+        if not root:
+            return
+        queue = deque([root])
+        while queue:
+            node = queue.popleft()
+            print(node.value, end=' ')
+            if node.left:
+                queue.append(node.left)
+            if node.right:
+                queue.append(node.right)
