@@ -190,3 +190,28 @@
                 queue.append(node.left)
             if node.right:
                 queue.append(node.right)
+
+- front: 'Depth First Search: Iterative (Graph)'
+  back: |
+    def dfs_iterative(graph, start_vertex):
+    visited = set()
+    stack = [start_vertex]
+
+    while stack:
+        vertex = stack.pop()
+        if vertex not in visited:
+            print(vertex, end=' ')
+            visited.add(vertex)
+            stack.append(graph.get(vertex, []))
+
+- front: 'Depth First Search: Recursive (Graph)'
+  back: |
+    def dfs_recursive(graph, node, visited=None):
+        if visited is None:
+            visited = set()
+        visited.add(node)
+        print(node, end' ')
+
+        for neighbor in graph.get(node, []):
+            if neighbor not in visited:
+                dfs_recursive(graph, neighbor, visited)
