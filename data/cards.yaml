@@ -194,15 +194,15 @@
 - front: 'Depth First Search: Iterative (Graph)'
   back: |
     def dfs_iterative(graph, start_vertex):
-    visited = set()
-    stack = [start_vertex]
+        visited = set()
+        stack = [start_vertex]
 
-    while stack:
-        vertex = stack.pop()
-        if vertex not in visited:
-            print(vertex, end=' ')
-            visited.add(vertex)
-            stack.append(graph.get(vertex, []))
+        while stack:
+            vertex = stack.pop()
+            if vertex not in visited:
+                print(vertex, end=' ')
+                visited.add(vertex)
+                stack.append(graph.get(vertex, []))
 
 - front: 'Depth First Search: Recursive (Graph)'
   back: |
@@ -215,3 +215,23 @@
         for neighbor in graph.get(node, []):
             if neighbor not in visited:
                 dfs_recursive(graph, neighbor, visited)
+
+- front: 'Depth First Traversal (Tree: Preorder, Inorder, Postorder)'
+  back: |
+    def preorder(root):
+        if root:
+            print(root.value, end=' ')
+            preorder(root.left)
+            preorder(root.right)
+
+    def inorder(root):
+        if root:
+            inorder(root.left)
+            print(root.value, end=' ')
+            inorder(root.right)
+
+    def postorder(root):
+        if root:
+            postorder(root.left)
+            postorder(root.right)
+            print(root.value, end=' ')
