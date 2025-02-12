@@ -35,7 +35,7 @@
                 ptr = ptr.children[letter]
             ptr.final_node = True
 
-        def search(self, word: str) -&gt; bool:
+        def search(self, word: str) -> bool:
             ptr = self.root
 
             for letter in word:
@@ -45,7 +45,7 @@
             
             return ptr.final_node
 
-        def starts_with(self, prefix: str) -&gt; bool:
+        def starts_with(self, prefix: str) -> bool:
             ptr = self.root
 
             for letter in prefix:
@@ -235,3 +235,37 @@
             postorder(root.left)
             postorder(root.right)
             print(root.value, end=' ')
+
+- front: 'Insertion Sort'
+  back: |
+    def insertion_sort(arr):
+        for i in range(1, len(arr)):
+            key = arr[i]
+            j = i - 1
+            while j >= 0 and arr[j] > key:
+                arr[j + 1] = arr[j]
+                j -= 1
+            arr[j + 1] = key
+        return arr
+
+- front: 'Merge Sort'
+  back: |
+    def merge_sort(nums):
+        if len(nums) <= 1:
+            return arr
+        mid = len(nums) // 2
+        left = merge_sort(arr[:mid])
+        right = merge_sort(arr[mid:])
+        return sorted(left + right)
+
+- front: 'Quicksort'
+  back: |
+    def quicksort(nums):
+        if len(nums) &lt;= 1:
+            return nums
+
+        pivot = arr[len(nums) // 2]
+        left = [x for x in nums if x &lt; pivot]
+        middle = [x for x in nums if x == pivot]
+        right = [x for x in nums if x &gt; pivot]
+        return quicksort(left) + middle + quicksort(right)
