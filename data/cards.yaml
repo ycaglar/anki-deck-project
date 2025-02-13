@@ -28,7 +28,6 @@
 
         def insert(self, word: str):
             ptr = self.root
-
             for letter in word:
                 if letter not in ptr.children:
                     ptr.children[letter] = TrieNode()
@@ -37,22 +36,18 @@
 
         def search(self, word: str) -> bool:
             ptr = self.root
-
             for letter in word:
                 if letter not in ptr.children:
                     return False
                 ptr = ptr.children[letter]
-            
             return ptr.final_node
 
         def starts_with(self, prefix: str) -> bool:
             ptr = self.root
-
             for letter in prefix:
                 if letter not in ptr.children:
                     return False
                 ptr = ptr.children[letter]
-            
             return True
 
 - front: 'Singly-Linked List'
@@ -63,7 +58,6 @@
             self.next = next
 
     class SinglyLinkedList:
-
         def reverseList(self, head: [ListNode]) -> [ListNode]:
             l = None 
             m = head
@@ -75,84 +69,19 @@
                 l = m
                 m = r
             
-            return head
+            return l  # Fix: return the new head
 
-        def mergeTwoLists(self, list1: [ListNode], list2: [ListNode]) -> [ListNode]:
-            head = None
-            ptr = head
-
-            while list1 or list2:
-                if list1 and list2 and list1.val <= list2.val or list1 and not list2:
-                    node = ListNode(list1.val, None)
-                    list1 = list1.next
-                elif list1 and list2 or not list1 and list2:
-                    node = ListNode(list2.val, None)
-                    list2 = list2.next
-                if not ptr:
-                    ptr = node
-                    head = ptr
-                else:
-                    ptr.next = node
-                    ptr = ptr.next
-
-            return head
-
-          def hasCycle(self, head: Optional[ListNode]) -> bool:
-
-            ssp = head # Single step pointer
-            dsp = head # Double step pointer
+        def hasCycle(self, head: ListNode) -> bool:
+            ssp = head  # Slow pointer
+            dsp = head  # Fast pointer
             
             while dsp and dsp.next:
                 ssp = ssp.next
                 dsp = dsp.next.next
-            
-            if ssp == dsp:
-                return True
+                if ssp == dsp:
+                    return True
             
             return False
-
-        def removeNthFromEnd(self, head: [ListNode], n: int) -> [ListNode]:
-        
-            ptr = head
-            len = 0
-
-            while ptr:
-                len += 1
-                ptr = ptr.next
-            
-            ptr = head
-            i = 0
-
-            if len == n:
-                return head.next
-
-            while ptr and i < len - n - 1:
-                ptr = ptr.next
-                i += 1
-            
-            if ptr.next:
-                ptr.next = ptr.next.next
-            else:
-                ptr.next = None
-        
-            return head
-        
-        def mergeKLists(self, lists: [[ListNode]]) -> [ListNode]:
-            heap = []
-            for node_list in lists:
-                while node_list:
-                    heappush(heap, node_list.val)
-                    node_list = node_list.next
-            
-            head = None
-            if heap:
-                head = ptr = ListNode(heappop(heap), None)
-
-            while heap:
-                ptr.next = ListNode(heappop(heap), None)
-                ptr = ptr.next
-
-            return head
 
 - front: 'Breadth First Search (Graph)'
   back: |
@@ -167,29 +96,7 @@
             if vertex not in visited:
                 print(vertex, end=' ')
                 visited.add(vertex)
-                queue.append(graph.get(vertex, []))
-
-- front: 'Breadth First Traversal (Tree: Level Order)'
-  back: |
-    from collections import deque
-
-    class TreeNode:
-        def __init__(self, value):
-            self.value = value
-            self.left = None
-            self.right = None
-
-    def bfs_tree(root):
-        if not root:
-            return
-        queue = deque([root])
-        while queue:
-            node = queue.popleft()
-            print(node.value, end=' ')
-            if node.left:
-                queue.append(node.left)
-            if node.right:
-                queue.append(node.right)
+                queue.extend(graph.get(vertex, []))  # Fix: use extend() instead of append()
 
 - front: 'Depth First Search: Iterative (Graph)'
   back: |
@@ -202,7 +109,7 @@
             if vertex not in visited:
                 print(vertex, end=' ')
                 visited.add(vertex)
-                stack.append(graph.get(vertex, []))
+                stack.extend(graph.get(vertex, []))  # Fix: use extend() instead of append()
 
 - front: 'Depth First Search: Recursive (Graph)'
   back: |
@@ -210,62 +117,117 @@
         if visited is None:
             visited = set()
         visited.add(node)
-        print(node, end' ')
+        print(node, end=' ')
 
         for neighbor in graph.get(node, []):
             if neighbor not in visited:
                 dfs_recursive(graph, neighbor, visited)
 
-- front: 'Depth First Traversal (Tree: Preorder, Inorder, Postorder)'
+- front: 'Dijkstra’s Algorithm (Shortest Path)'
   back: |
-    def preorder(root):
-        if root:
-            print(root.value, end=' ')
-            preorder(root.left)
-            preorder(root.right)
+    import heapq
 
-    def inorder(root):
-        if root:
-            inorder(root.left)
-            print(root.value, end=' ')
-            inorder(root.right)
+    def dijkstra(graph, start):
+        heap = [(0, start)]
+        distances = {node: float('inf') for node in graph}
+        distances[start] = 0
 
-    def postorder(root):
-        if root:
-            postorder(root.left)
-            postorder(root.right)
-            print(root.value, end=' ')
+        while heap:
+            curr_dist, node = heapq.heappop(heap)
+            if curr_dist > distances[node]:
+                continue
+            for neighbor, weight in graph[node]:
+                distance = curr_dist + weight
+                if distance < distances[neighbor]:
+                    distances[neighbor] = distance
+                    heapq.heappush(heap, (distance, neighbor))
 
-- front: 'Insertion Sort'
+        return distances
+
+- front: 'Kruskal’s Algorithm (Minimum Spanning Tree)'
   back: |
-    def insertion_sort(arr):
-        for i in range(1, len(arr)):
-            key = arr[i]
-            j = i - 1
-            while j >= 0 and arr[j] > key:
-                arr[j + 1] = arr[j]
-                j -= 1
-            arr[j + 1] = key
-        return arr
+    class UnionFind:
+        def __init__(self, size):
+            self.parent = list(range(size))
+            self.rank = [1] * size
+
+        def find(self, node):
+            if self.parent[node] != node:
+                self.parent[node] = self.find(self.parent[node])
+            return self.parent[node]
+
+        def union(self, u, v):
+            root1, root2 = self.find(u), self.find(v)
+            if root1 != root2:
+                if self.rank[root1] > self.rank[root2]:
+                    self.parent[root2] = root1
+                elif self.rank[root1] < self.rank[root2]:
+                    self.parent[root1] = root2
+                else:
+                    self.parent[root2] = root1
+                    self.rank[root1] += 1
+
+    def kruskal(graph, num_nodes):
+        edges = sorted(graph, key=lambda edge: edge[2])  # Sort by weight
+        uf = UnionFind(num_nodes)
+        mst = []
+
+        for u, v, weight in edges:
+            if uf.find(u) != uf.find(v):
+                uf.union(u, v)
+                mst.append((u, v, weight))
+
+        return mst
+
+- front: 'Heap Sort'
+  back: |
+    import heapq
+
+    def heap_sort(arr):
+        heapq.heapify(arr)
+        return [heapq.heappop(arr) for _ in range(len(arr))]
+
+- front: 'Topological Sorting (Kahn’s Algorithm)'
+  back: |
+    from collections import deque
+
+    def topological_sort(graph):
+        in_degree = {node: 0 for node in graph}
+        for node in graph:
+            for neighbor in graph[node]:
+                in_degree[neighbor] += 1
+
+        queue = deque([node for node in in_degree if in_degree[node] == 0])
+        result = []
+
+        while queue:
+            node = queue.popleft()
+            result.append(node)
+            for neighbor in graph[node]:
+                in_degree[neighbor] -= 1
+                if in_degree[neighbor] == 0:
+                    queue.append(neighbor)
+
+        return result if len(result) == len(graph) else []  # Return empty if cycle exists
 
 - front: 'Merge Sort'
   back: |
     def merge_sort(nums):
         if len(nums) <= 1:
-            return arr
+            return nums
         mid = len(nums) // 2
-        left = merge_sort(arr[:mid])
-        right = merge_sort(arr[mid:])
-        return sorted(left + right)
+        left = merge_sort(nums[:mid])
+        right = merge_sort(nums[mid:])
+        return sorted(left + right)  # Fix: Use correct variable name
 
 - front: 'Quicksort'
   back: |
     def quicksort(nums):
-        if len(nums) &lt;= 1:
+        if len(nums) <= 1:
             return nums
 
-        pivot = arr[len(nums) // 2]
-        left = [x for x in nums if x &lt; pivot]
+        pivot = nums[len(nums) // 2]  # Fix: Correct variable name
+        left = [x for x in nums if x < pivot]
         middle = [x for x in nums if x == pivot]
-        right = [x for x in nums if x &gt; pivot]
+        right = [x for x in nums if x > pivot]
         return quicksort(left) + middle + quicksort(right)
