@@ -96,7 +96,7 @@
             if vertex not in visited:
                 print(vertex, end=' ')
                 visited.add(vertex)
-                queue.extend(graph.get(vertex, []))  # Fix: use extend() instead of append()
+                queue.extend(graph.get(vertex, []))
 
 - front: 'Depth First Search: Iterative (Graph)'
   back: |
@@ -109,7 +109,7 @@
             if vertex not in visited:
                 print(vertex, end=' ')
                 visited.add(vertex)
-                stack.extend(graph.get(vertex, []))  # Fix: use extend() instead of append()
+                stack.extend(graph.get(vertex, []))
 
 - front: 'Depth First Search: Recursive (Graph)'
   back: |
@@ -218,7 +218,7 @@
         mid = len(nums) // 2
         left = merge_sort(nums[:mid])
         right = merge_sort(nums[mid:])
-        return sorted(left + right)  # Fix: Use correct variable name
+        return sorted(left + right)
 
 - front: 'Quicksort'
   back: |
@@ -226,7 +226,7 @@
         if len(nums) <= 1:
             return nums
 
-        pivot = nums[len(nums) // 2]  # Fix: Correct variable name
+        pivot = nums[len(nums) // 2]
         left = [x for x in nums if x < pivot]
         middle = [x for x in nums if x == pivot]
         right = [x for x in nums if x > pivot]
