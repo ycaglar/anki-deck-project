@@ -69,7 +69,7 @@
                 l = m
                 m = r
             
-            return l  # Fix: return the new head
+            return l
 
         def hasCycle(self, head: ListNode) -> bool:
             ssp = head  # Slow pointer
