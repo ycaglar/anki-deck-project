@@ -212,22 +212,22 @@
 
 - front: 'Merge Sort'
   back: |
-    def merge_sort(nums):
-        if len(nums) <= 1:
-            return nums
-        mid = len(nums) // 2
-        left = merge_sort(nums[:mid])
-        right = merge_sort(nums[mid:])
+    def merge_sort(arr):
+        if len(arr) <= 1:
+            return arr
+        mid = len(arr) // 2
+        left = merge_sort(arr[:mid])
+        right = merge_sort(arr[mid:])
         return sorted(left + right)
 
 - front: 'Quicksort'
   back: |
-    def quicksort(nums):
-        if len(nums) <= 1:
-            return nums
+    def quicksort(arr):
+        if len(arr) <= 1:
+            return arr
 
-        pivot = nums[len(nums) // 2]
-        left = [x for x in nums if x < pivot]
-        middle = [x for x in nums if x == pivot]
-        right = [x for x in nums if x > pivot]
+        pivot = arr[len(arr) // 2]
+        left = [x for x in arr if x < pivot]
+        middle = [x for x in arr if x == pivot]
+        right = [x for x in arr if x > pivot]
         return quicksort(left) + middle + quicksort(right)
