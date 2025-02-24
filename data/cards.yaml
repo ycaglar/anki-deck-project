@@ -58,7 +58,7 @@
             self.next = next
 
     class SinglyLinkedList:
-        def reverseList(self, head: [ListNode]) -> [ListNode]:
+        def reverse_list(self, head: ListNode) -> ListNode:
             l = None 
             m = head
             r = None
@@ -71,14 +71,14 @@
             
             return l
 
-        def hasCycle(self, head: ListNode) -> bool:
-            ssp = head  # Slow pointer
-            dsp = head  # Fast pointer
+        def detect_cycle(self, head: ListNode) -> bool:
+            sptr = head  # Slow pointer
+            fptr = head  # Fast pointer
             
-            while dsp and dsp.next:
-                ssp = ssp.next
-                dsp = dsp.next.next
-                if ssp == dsp:
+            while fptr and fptr.next:
+                sptr = sptr.next
+                fptr = fptr.next.next
+                if sptr == fptr:
                     return True
             
             return False
@@ -94,7 +94,7 @@
         while queue:
             vertex = queue.popleft()
             if vertex not in visited:
-                print(vertex, end = ' ')
+                print(vertex)
                 visited.add(vertex)
                 queue.extend(graph.get(vertex, []))
 
@@ -107,7 +107,7 @@
         while stack:
             vertex = stack.pop()
             if vertex not in visited:
-                print(vertex, end = ' ')
+                print(vertex)
                 visited.add(vertex)
                 stack.extend(graph.get(vertex, []))
 
@@ -117,7 +117,7 @@
         if visited is None:
             visited = set()
         visited.add(start_node)
-        print(start_node, end = ' ')
+        print(start_node)
 
         for neighbor in graph.get(start_node, []):
             if neighbor not in visited:
