@@ -26,7 +26,7 @@
         def __init__(self):
             self.root = TrieNode()
 
-        def insert(self, word: str):
+        def insert(self, word):
             ptr = self.root
             for letter in word:
                 if letter not in ptr.children:
@@ -34,7 +34,7 @@
                 ptr = ptr.children[letter]
             ptr.final_node = True
 
-        def search(self, word: str) -> bool:
+        def search(self, word) -> bool:
             ptr = self.root
             for letter in word:
                 if letter not in ptr.children:
@@ -42,7 +42,7 @@
                 ptr = ptr.children[letter]
             return ptr.final_node
 
-        def starts_with(self, prefix: str) -> bool:
+        def starts_with(self, prefix) -> bool:
             ptr = self.root
             for letter in prefix:
                 if letter not in ptr.children:
@@ -58,7 +58,7 @@
             self.next = next
 
     class SinglyLinkedList:
-        def reverse_list(self, head: ListNode) -> ListNode:
+        def reverse_list(self, head) -> ListNode:
             l = None 
             m = head
             r = None
@@ -71,7 +71,7 @@
             
             return l
 
-        def detect_cycle(self, head: ListNode) -> bool:
+        def detect_cycle(self, head) -> bool:
             sptr = head  # Slow pointer
             fptr = head  # Fast pointer
             
@@ -113,13 +113,13 @@
 
 - front: 'Depth First Search: Recursive (Graph)'
   back: |
-    def dfs_recursive(graph, start_node, visited = None):
+    def dfs_recursive(graph, start_vertex, visited = None):
         if visited is None:
             visited = set()
-        visited.add(start_node)
-        print(start_node)
+        visited.add(start_vertex)
+        print(start_vertex)
 
-        for neighbor in graph.get(start_node, []):
+        for neighbor in graph.get(start_vertex, []):
             if neighbor not in visited:
                 dfs_recursive(graph, neighbor, visited)
 
@@ -127,16 +127,16 @@
   back: |
     import heapq
 
-    def dijkstra(graph, start):
-        heap = [(0, start)]
-        distances = {node: float('inf') for node in graph}
-        distances[start] = 0
+    def dijkstra(graph, start_vertex):
+        heap = [(0, start_vertex)]
+        distances = {vertex: float('inf') for vertex in graph}
+        distances[start_vertex] = 0
 
         while heap:
-            curr_dist, node = heapq.heappop(heap)
-            if curr_dist > distances[node]:
+            curr_dist, vertex = heapq.heappop(heap)
+            if curr_dist > distances[vertex]:
                 continue
-            for neighbor, weight in graph[node]:
+            for neighbor, weight in graph[vertex]:
                 distance = curr_dist + weight
                 if distance < distances[neighbor]:
                     distances[neighbor] = distance
