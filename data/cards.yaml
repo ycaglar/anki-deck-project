@@ -231,3 +231,51 @@
         middle = [x for x in arr if x == pivot]
         right = [x for x in arr if x > pivot]
         return quicksort(left) + middle + quicksort(right)
+
+- front: 'Breadth First Traversal (Tree, Level Order)'
+  back: |
+    from collections import deque
+
+    class TreeNode:
+        def __init__(self, value):
+            self.value = value
+            self.left = None
+            self.right = None
+
+    def bfs_tree(root):
+        if not root:
+            return
+        queue = deque([root])
+        while queue:
+            node = queue.popleft()
+            print(node.value)
+            if node.left:
+                queue.append(node.left)
+            if node.right:
+                queue.append(node.right)
+
+- front: 'Depth First Traversal (Tree Version: Preorder, Inorder, Postorder)'
+  back: |
+    class TreeNode:
+        def __init__(self, value):
+            self.value = value
+            self.left = None
+            self.right = None
+
+    def preorder(root):
+        if root:
+            print(root.value)
+            preorder(root.left)
+            preorder(root.right)
+
+    def inorder(root):
+        if root:
+            inorder(root.left)
+            print(root.value)
+            inorder(root.right)
+
+    def postorder(root):
+        if root:
+            postorder(root.left)
+            postorder(root.right)
+            print(root.value)
