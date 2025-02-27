@@ -56,6 +56,39 @@
                     return False
                 ptr = ptr.children[letter]
             return True
+        
+        def delete(self, word):
+            def _delete(node, word, index):
+                if index == len(word):
+                    if node.final_node:
+                        node.final_node = False
+                    return not bool(node.children)  # Return true if no children, so node can be deleted
+                letter = word[index]
+                if letter in node.children:
+                    can_delete = _delete(node.children[letter], word, index + 1)
+                    if can_delete:
+                        del node.children[letter]
+                        return not bool(node.children) and not node.final_node
+                return False
+            _delete(self.root, word, 0)
+
+        def autocomplete(self, prefix):
+            ptr = self.root
+            for letter in prefix:
+                if letter not in ptr.children:
+                    return []
+                ptr = ptr.children[letter]
+
+            # Perform DFS to collect all words
+            def dfs(node, current_prefix):
+                words = []
+                if node.final_node:
+                    words.append(current_prefix)
+                for letter, child_node in node.children.items():
+                    words.extend(dfs(child_node, current_prefix + letter))
+                return words
+
+            return dfs(ptr, prefix)
   description: |
     Time Complexity: 
       - insert: O(n), where n is the length of the word.
@@ -77,6 +110,80 @@
             self.next = next
 
     class SinglyLinkedList:
+
+        def insert_at_head(self, head, val) -> ListNode:
+            new_node = ListNode(val)
+            new_node.next = head
+            return new_node
+
+        def insert_at_tail(self, head, val) -> ListNode:
+            new_node = ListNode(val)
+            if not head:
+                return new_node
+            curr = head
+            while curr.next:
+                curr = curr.next
+            curr.next = new_node
+            return head
+
+        def delete_node(self, head, val) -> ListNode:
+            if not head:
+                return None
+            if head.val == val:
+                return head.next
+            curr = head
+            while curr and curr.next:
+                if curr.next.val == val:
+                    curr.next = curr.next.next
+                    break
+                curr = curr.next
+            return head
+
+        def add_at_index(self, head, index, val) -> ListNode:
+            if index < 0:
+                return head
+            new_node = ListNode(val)
+            if index == 0:
+                new_node.next = head
+                return new_node
+            curr = head
+            for i in range(index - 1):
+                if not curr:
+                    return head
+                curr = curr.next
+            if curr:
+                new_node.next = curr.next
+                curr.next = new_node
+            return head
+
+        def delete_at_index(self, head, index) -> ListNode:
+            if index < 0:
+                return head
+            if index == 0:
+                return head.next
+            curr = head
+            for i in range(index - 1):
+                if not curr:
+                    return head
+                curr = curr.next
+            if curr and curr.next:
+                curr.next = curr.next.next
+            return head
+
+        def merge_sorted_lists(self, l1, l2):
+            dummy = ListNode()
+            current = dummy
+            while l1 and l2:
+                if l1.val < l2.val:
+                    current.next = l1
+                    l1 = l1.next
+                else:
+                    current.next = l2
+                    l2 = l2.next
+                current = current.next
+            current.next = l1 if l1 else l2
+            return dummy.next
+
         def reverse_list(self, head) -> ListNode:
             l = None 
             m = head
@@ -175,7 +282,14 @@
             if neighbor not in visited:
                 dfs_recursive(graph, neighbor, visited)
   description: |
-
+    Time Complexity: O(V + E), where V is the number of vertices and E is the number of edges.
+    Space Complexity: O(V), due to the recursion stack.
+    Use Cases: 
+      - Explore all nodes in a graph recursively.
+    Edge Cases:
+      - Empty graph: dfs_recursive({}, 'A') should return nothing.
+    paradigm:
+    Graph Traversal
 - front: 'Dijkstra’s Algorithm (Shortest Path)'
   back: |
     import heapq
