@@ -24,7 +24,7 @@
     Paradigms:
       - Divide and Conquer
 
-- front: 'Trie: Insert Word'
+- front: 'Trie'
   back: |
     class TrieNode:
         def __init__(self):
@@ -40,27 +40,6 @@
             for letter in word:
                 node = node.children.setdefault(letter, TrieNode())
             node.final_node = True
-  description: |
-    Time Complexity: 
-      - insert: O(n), where n is the length of the word.
-    Space Complexity: O(n) for a single word, where n is the word's length.
-    Edge Cases:
-      - Insert an empty string: trie.insert('') should work.
-    Paradigms:
-      - Tree-Based Search
-      - Prefix Tree
-      - Trie
-
-- front: 'Trie: Search Word'
-  back: |
-    class TrieNode:
-        def __init__(self):
-            self.children = {}
-            self.final_node = False
-
-    class Trie:
-        def __init__(self):
-            self.root = TrieNode()
 
         def search(self, word) -> bool:
             node = self.root
@@ -69,55 +48,14 @@
                     return False
                 node = node.children[letter]
             return node.final_node
-  description: |
-    Time Complexity: 
-      - search: O(n), where n is the length of the word.
-    Space Complexity: O(n) for a single word, where n is the word's length.
-    Edge Cases:
-      - Search for a word that does not exist: trie.search('word') should return False.
-    Paradigms:
-      - Tree-Based Search
-      - Prefix Tree
-      - Trie
 
-- front: 'Trie: Search Prefix'
-  back: |
-    class TrieNode:
-        def __init__(self):
-            self.children = {}
-            self.final_node = False
-
-    class Trie:
-        def __init__(self):
-            self.root = TrieNode()
-
-        def search_prefix(self, prefix) -> bool:
+        def starts_with(self, prefix) -> bool:
             node = self.root
             for letter in prefix:
                 if letter not in node.children:
                     return False
                 node = node.children[letter]
             return True
-  description: |
-    Time Complexity: 
-      - search_prefix: O(n), where n is the length of the prefix.
-    Space Complexity: O(n) for a single word, where n is the word's length.
-    Edge Cases:
-    Paradigms:
-      - Tree-Based Search
-      - Prefix Tree
-      - Trie
-
-- front: 'Trie: Delete Word'
-  back: |
-    class TrieNode:
-        def __init__(self):
-            self.children = {}
-            self.final_node = False
-
-    class Trie:
-        def __init__(self):
-            self.root = TrieNode()
 
         def delete(self, word) -> None:
             def _delete(node, word, index) -> bool:
@@ -136,26 +74,6 @@
                 return False
             
             _delete(self.root, word, 0)
-  description: |
-    Time Complexity: 
-      - delete: O(n), where n is the length of the word.
-    Space Complexity: O(n) for a single word, where n is the word's length.
-    Edge Cases:
-    Paradigms:
-      - Tree-Based Search
-      - Prefix Tree
-      - Trie
-
-- front: 'Trie: Autocomplete'
-  back: |
-    class TrieNode:
-        def __init__(self):
-            self.children = {}
-            self.final_node = False
-
-    class Trie:
-        def __init__(self):
-            self.root = TrieNode()
 
         def autocomplete(self, prefix) -> list:
             node = self.root
@@ -176,16 +94,20 @@
             return dfs(node, prefix)
   description: |
     Time Complexity: 
+      - insert: O(n), where n is the length of the word.
+      - search: O(n), where n is the length of the word.
+      - starts_with: O(n), where n is the length of the prefix.
+      - delete: O(n), where n is the length of the word.
       - autocomplete: O(m), where m is the number of words starting with the prefix.
     Space Complexity: O(n) for a single word, where n is the word's length.
     Edge Cases:
+      - Insert an empty string: trie.insert('') should work.
+      - Search for a word that does not exist: trie.search('word') should return False.
       - Autocomplete with no matches: trie.autocomplete('xyz') should return [].
     Paradigms:
       - Tree-Based Search
-      - Prefix Tree
-      - Trie
 
-- front: 'Singly-Linked List: Insert at the head'
+- front: 'Singly-Linked List'
   back: |
     class ListNode:
         def __init__(self, val = 0, next = None):
@@ -200,25 +122,7 @@
               return new_node
             new_node.next = head
             return new_node
-  description: |
-    Time Complexity:
-      - insert_at_head: O(1), constant time.
-    Space Complexity: O(1).
-    Edge Cases:
-    Paradigms:
-      - Linear Data Structures
-      - Pointer Manipulation
-      - Linked List
 
-- front: 'Singly-Linked List: Insert at the Tail'
-  back: |
-    class ListNode:
-        def __init__(self, val = 0, next = None):
-            self.val = val
-            self.next = next
-
-    class SinglyLinkedList:
-        
         def insert_at_tail(self, head, val) -> ListNode:
             new_node = ListNode(val)
             if not head:
@@ -228,25 +132,6 @@
                 curr = curr.next
             curr.next = new_node
             return head
-
-  description: |
-    Time Complexity:
-      - insert_at_tail: O(n), where n is the number of nodes.
-    Space Complexity: O(1).
-    Edge Cases:
-    Paradigms:
-      - Linear Data Structures
-      - Pointer Manipulation
-      - Linked List
-
-- front: 'Singly-Linked List: Delete Node'
-  back: |
-    class ListNode:
-        def __init__(self, val = 0, next = None):
-            self.val = val
-            self.next = next
-
-    class SinglyLinkedList:
 
         def delete_node(self, head, val) -> ListNode:
             if not head:
@@ -260,26 +145,6 @@
                     break
                 curr = curr.next
             return head
-
-  description: |
-    Time Complexity:
-      - delete_node: O(n), where n is the number of nodes.
-    Space Complexity: O(1).
-    Edge Cases:
-      - Deleting from an empty list: delete_node(None, 1) should return None.
-    Paradigms:
-      - Linear Data Structures
-      - Pointer Manipulation
-      - Linked List
-
-- front: 'Singly-Linked List: Add at index'
-  back: |
-    class ListNode:
-        def __init__(self, val = 0, next = None):
-            self.val = val
-            self.next = next
-
-    class SinglyLinkedList:
 
         def add_at_index(self, head, index, val) -> ListNode:
             if index < 0:
@@ -298,25 +163,6 @@
                 curr.next = new_node
             return head
 
-  description: |
-    Time Complexity:
-      - add_at_index: O(n), where n is the number of nodes.
-    Space Complexity: O(1).
-    Edge Cases:
-    Paradigms:
-      - Linear Data Structures
-      - Pointer Manipulation
-      - Linked List
-
-- front: 'Singly-Linked List: Delete at index'
-  back: |
-    class ListNode:
-        def __init__(self, val = 0, next = None):
-            self.val = val
-            self.next = next
-
-    class SinglyLinkedList:
-
         def delete_at_index(self, head, index) -> ListNode:
             if index < 0:
                 return head
@@ -330,25 +176,6 @@
             if curr and curr.next:
                 curr.next = curr.next.next
             return head
-
-  description: |
-    Time Complexity:
-      - delete_at_index: O(n), where n is the number of nodes.
-    Space Complexity: O(1).
-    Edge Cases:
-    Paradigms:
-      - Linear Data Structures
-      - Pointer Manipulation
-      - Linked List
-
-- front: 'Singly-Linked List: Merge sorted list'
-  back: |
-    class ListNode:
-        def __init__(self, val = 0, next = None):
-            self.val = val
-            self.next = next
-
-    class SinglyLinkedList:
 
         def merge_sorted_lists(self, l1, l2):
             dummy = ListNode()
@@ -364,26 +191,6 @@
             current.next = l1 if l1 else l2
             return dummy.next
 
-  description: |
-    Time Complexity:
-      - merge_sorted_lists: O(n + m), where n and m are the lengths of the two lists.
-    Space Complexity: O(1) for all operations except reverse_list.
-    Edge Cases:
-      - Merging two empty lists: merge_sorted_lists(None, None) should return None.
-    Paradigms:
-      - Linear Data Structures
-      - Pointer Manipulation
-      - Linked List
-
-- front: 'Singly-Linked List: Reverse List'
-  back: |
-    class ListNode:
-        def __init__(self, val = 0, next = None):
-            self.val = val
-            self.next = next
-
-    class SinglyLinkedList:
-
         def reverse_list(self, head) -> ListNode:
             l = None 
             m = head
@@ -397,25 +204,6 @@
             
             return l
 
-  description: |
-    Time Complexity:
-      - reverse_list: O(n), where n is the number of nodes.
-    Space Complexity: O(1).
-    Edge Cases:
-    Paradigms:
-      - Linear Data Structures
-      - Pointer Manipulation
-      - Linked List
-
-- front: 'Singly-Linked List: Detect cycle'
-  back: |
-    class ListNode:
-        def __init__(self, val = 0, next = None):
-            self.val = val
-            self.next = next
-
-    class SinglyLinkedList:
-
         def detect_cycle(self, head) -> bool:
             sptr = head  # Slow pointer
             fptr = head  # Fast pointer
@@ -425,17 +213,26 @@
                 fptr = fptr.next.next
                 if sptr == fptr:
                     return True
+            
             return False
-
   description: |
     Time Complexity:
+      - reverse_list: O(n), where n is the number of nodes.
       - detect_cycle: O(n), where n is the number of nodes.
-    Space Complexity: O(1).
+      - insert_at_head: O(1), constant time.
+      - insert_at_tail: O(n), where n is the number of nodes.
+      - delete_node: O(n), where n is the number of nodes.
+      - add_at_index: O(n), where n is the number of nodes.
+      - delete_at_index: O(n), where n is the number of nodes.
+      - merge_sorted_lists: O(n + m), where n and m are the lengths of the two lists.
+    Space Complexity: O(1) for all operations except reverse_list.
     Edge Cases:
+      - Empty list: detect_cycle(None) should return False.
+      - Deleting from an empty list: delete_node(None, 1) should return None.
+      - Merging two empty lists: merge_sorted_lists(None, None) should return None.
     Paradigms:
       - Linear Data Structures
       - Pointer Manipulation
-      - Linked List
 
 - front: 'Breadth First Search (Graph)'
   back: |
