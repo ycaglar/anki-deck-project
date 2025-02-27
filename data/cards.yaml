@@ -14,6 +14,13 @@
                 return m
         
         return -1
+  description: |
+    Time Complexity: O(log n)
+    Space Complexity: O(1)
+    Edge Cases:
+      - Empty list: binary_search([], 3) should return -1.
+      - Single element list: binary_search([5], 5) should return 0.
+      - No match: binary_search([1, 2, 3], 4) should return -1.
 
 - front: 'Trie'
   back: |
@@ -49,6 +56,18 @@
                     return False
                 ptr = ptr.children[letter]
             return True
+  description: |
+    Time Complexity: 
+      - insert: O(n), where n is the length of the word.
+      - search: O(n), where n is the length of the word.
+      - starts_with: O(n), where n is the length of the prefix.
+      - delete: O(n), where n is the length of the word.
+      - autocomplete: O(m), where m is the number of words starting with the prefix.
+    Space Complexity: O(n) for a single word, where n is the word's length.
+    Edge Cases:
+      - Insert an empty string: trie.insert("") should work.
+      - Search for a word that does not exist: trie.search("word") should return False.
+      - Autocomplete with no matches: trie.autocomplete("xyz") should return [].
 
 - front: 'Singly-Linked List'
   back: |
@@ -82,6 +101,21 @@
                     return True
             
             return False
+  description: |
+    Time Complexity:
+      - reverse_list: O(n), where n is the number of nodes.
+      - detect_cycle: O(n), where n is the number of nodes.
+      - insert_at_head: O(1), constant time.
+      - insert_at_tail: O(n), where n is the number of nodes.
+      - delete_node: O(n), where n is the number of nodes.
+      - add_at_index: O(n), where n is the number of nodes.
+      - delete_at_index: O(n), where n is the number of nodes.
+      - merge_sorted_lists: O(n + m), where n and m are the lengths of the two lists.
+    Space Complexity: O(1) for all operations except reverse_list.
+    Edge Cases:
+      - Empty list: detect_cycle(None) should return False.
+      - Deleting from an empty list: delete_node(None, 1) should return None.
+      - Merging two empty lists: merge_sorted_lists(None, None) should return None.
 
 - front: 'Breadth First Search (Graph)'
   back: |
@@ -97,6 +131,15 @@
                 print(vertex)
                 visited.add(vertex)
                 queue.extend(graph.get(vertex, []))
+  description: |
+    Time Complexity: O(V + E), where V is the number of vertices and E is the number of edges.
+    Space Complexity: O(V), space for visited nodes and the queue.
+    Use Cases:
+      - Find shortest path in unweighted graphs.
+      - Find all reachable nodes from a source node.
+    Edge Cases:
+      - Empty graph: bfs_graph({}, 'A') should return nothing.
+      - Graph with disconnected components: bfs_graph({'A': ['B'], 'B': ['A'], 'C': []}, 'A') should print A, B.
 
 - front: 'Depth First Search: Iterative (Graph)'
   back: |
@@ -110,6 +153,15 @@
                 print(vertex)
                 visited.add(vertex)
                 stack.extend(graph.get(vertex, []))
+  description: |
+    Time Complexity: O(V + E), where V is the number of vertices and E is the number of edges.
+    Space Complexity: O(V), space for visited nodes and the stack.
+    Use Cases:
+      - Find connected components.
+      - Traversal for exploring all nodes.
+    Edge Cases:
+      - Empty graph: dfs_iterative({}, 'A') should return nothing.
+      - Graph with no edges: dfs_iterative({'A': []}, 'A') should only print A.
 
 - front: 'Depth First Search: Recursive (Graph)'
   back: |
@@ -122,6 +174,7 @@
         for neighbor in graph.get(start_vertex, []):
             if neighbor not in visited:
                 dfs_recursive(graph, neighbor, visited)
+  description: |
 
 - front: 'Dijkstra’s Algorithm (Shortest Path)'
   back: |
@@ -143,6 +196,14 @@
                     heapq.heappush(heap, (distance, neighbor))
 
         return distances
+  description: |
+    Time Complexity: O((V + E) log V), due to heap operations.
+    Space Complexity: O(V), space for storing distances.
+    Use Cases:
+      - Find the shortest path in weighted graphs.
+    Edge Cases:
+      - Graph with no path: dijkstra({'A': [('B', 1)], 'B': [('A', 1)]}, 'A') should return {'A': 0, 'B': 1}.
+      - Graph with negative weights: should be handled with Bellman-Ford instead.
 
 - front: 'Kruskal’s Algorithm (Minimum Spanning Tree)'
   back: |
@@ -178,6 +239,13 @@
                 mst.append((u, v, weight))
 
         return mst
+  description: |
+    Time Complexity: O(E log E), where E is the number of edges.
+    Space Complexity: O(V), space for the Union-Find structure.
+    Use Cases:
+      - Finding Minimum Spanning Tree in a graph.
+    Edge Cases:
+      - Disconnected graph: kruskal([...], 5) will handle with appropriate edges.
 
 - front: 'Heap Sort'
   back: |
@@ -186,6 +254,12 @@
     def heap_sort(arr):
         heapq.heapify(arr)
         return [heapq.heappop(arr) for _ in range(len(arr))]
+  description: |
+    Time Complexity: O(n log n), where n is the number of elements.
+    Space Complexity: O(n), due to the heap structure.
+    Edge Cases:
+     - Empty list: heap_sort([]) should return [].
+     - Already sorted list: heap_sort([1, 2, 3]) should return [1, 2, 3].
 
 - front: 'Topological Sorting (Kahn’s Algorithm)'
   back: |
@@ -209,6 +283,12 @@
                     queue.append(neighbor)
 
         return result if len(result) == len(graph) else []  # Return empty if cycle exists
+  description: |
+    Time Complexity: O(V + E), where V is the number of vertices and E is the number of edges.
+    Space Complexity: O(V), space for storing in-degree and the queue.
+    Edge Cases:
+      - Graph with cycles: topological_sort({'A': ['B'], 'B': ['A']}) should return an empty list [].
+      - Graph with no edges: topological_sort({'A': [], 'B': []}) should return ['A', 'B'].
 
 - front: 'Merge Sort'
   back: |
@@ -219,6 +299,12 @@
         left = merge_sort(arr[:mid])
         right = merge_sort(arr[mid:])
         return sorted(left + right)
+  description: |
+    Time Complexity: O(n log n), where n is the number of elements.
+    Space Complexity: O(n), due to the space for the sorted array.
+    Edge Cases:
+      - Empty list: merge_sort([]) should return [].
+      - List with one element: merge_sort([1]) should return [1].
 
 - front: 'Quicksort'
   back: |
@@ -231,6 +317,12 @@
         middle = [x for x in arr if x == pivot]
         right = [x for x in arr if x > pivot]
         return quicksort(left) + middle + quicksort(right)
+  description: |
+    Time Complexity: O(n log n) on average, O(n^2) in the worst case.
+    Space Complexity: O(log n) due to recursion stack.
+    Edge Cases:
+      - Empty list: quicksort([]) should return [].
+      - List with identical elements: quicksort([1, 1, 1]) should return [1, 1, 1].
 
 - front: 'Breadth First Traversal (Tree, Level Order)'
   back: |
@@ -253,6 +345,12 @@
                 queue.append(node.left)
             if node.right:
                 queue.append(node.right)
+  description: |
+    Time Complexity: O(n), where n is the number of nodes.
+    Space Complexity: O(n), space for the queue.
+    Edge Cases:
+      - Empty tree: bfs_tree(None) should return nothing.
+      - Tree with one node: bfs_tree(TreeNode(1)) should print 1.
 
 - front: 'Depth First Traversal (Tree Version: Preorder, Inorder, Postorder)'
   back: |
@@ -279,3 +377,9 @@
             postorder(root.left)
             postorder(root.right)
             print(root.value)
+  description: |
+    Time Complexity: O(n), where n is the number of nodes.
+    Space Complexity: O(h), where h is the height of the tree (due to recursion stack).
+    Edge Cases:
+      - Empty tree: preorder(None), inorder(None), and postorder(None) should print nothing.
+      - Tree with one node: preorder(TreeNode(1)), inorder(TreeNode(1)), and postorder(TreeNode(1)) should print 1.
