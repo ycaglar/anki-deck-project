@@ -21,6 +21,8 @@
       - Empty list: binary_search([], 3) should return -1.
       - Single element list: binary_search([5], 5) should return 0.
       - No match: binary_search([1, 2, 3], 4) should return -1.
+    Paradigms:
+      - Divide and Conquer
 
 - front: 'Trie'
   back: |
@@ -33,62 +35,63 @@
         def __init__(self):
             self.root = TrieNode()
 
-        def insert(self, word):
-            ptr = self.root
+        def insert(self, word: str) -> None:
+            node = self.root
             for letter in word:
-                if letter not in ptr.children:
-                    ptr.children[letter] = TrieNode()
-                ptr = ptr.children[letter]
-            ptr.final_node = True
+                node = node.children.setdefault(letter, TrieNode())
+            node.final_node = True
 
-        def search(self, word) -> bool:
-            ptr = self.root
+        def search(self, word: str) -> bool:
+            node = self.root
             for letter in word:
-                if letter not in ptr.children:
+                if letter not in node.children:
                     return False
-                ptr = ptr.children[letter]
-            return ptr.final_node
+                node = node.children[letter]
+            return node.final_node
 
-        def starts_with(self, prefix) -> bool:
-            ptr = self.root
+        def starts_with(self, prefix: str) -> bool:
+            node = self.root
             for letter in prefix:
-                if letter not in ptr.children:
+                if letter not in node.children:
                     return False
-                ptr = ptr.children[letter]
+                node = node.children[letter]
             return True
-        
-        def delete(self, word):
+
+        def delete(self, word: str) -> None:
             def _delete(node, word, index):
                 if index == len(word):
-                    if node.final_node:
-                        node.final_node = False
-                    return not bool(node.children)  # Return true if no children, so node can be deleted
-                letter = word[index]
-                if letter in node.children:
-                    can_delete = _delete(node.children[letter], word, index + 1)
-                    if can_delete:
-                        del node.children[letter]
-                        return not bool(node.children) and not node.final_node
+                    if not node.final_node:
+                        return False
+                    node.final_node = False
+                    return len(node.children) == 0  # If no children, delete.
+                char = word[index]
+                if char not in node.children:
+                    return False
+                can_delete_child = _delete(node.children[char], word, index + 1)
+                if can_delete_child:
+                    del node.children[char]
+                    return len(node.children) == 0 and not node.final_node
                 return False
+            
             _delete(self.root, word, 0)
 
-        def autocomplete(self, prefix):
-            ptr = self.root
+        def autocomplete(self, prefix: str) -> list:
+            node = self.root
             for letter in prefix:
-                if letter not in ptr.children:
-                    return []
-                ptr = ptr.children[letter]
+                if letter not in node.children:
+                    return []  # No words with this prefix
+                node = node.children[letter]
 
-            # Perform DFS to collect all words
-            def dfs(node, current_prefix):
+            # Perform DFS to collect all words from this node onward
+            def dfs(node, current_word):
                 words = []
                 if node.final_node:
-                    words.append(current_prefix)
+                    words.append(current_word)
                 for letter, child_node in node.children.items():
-                    words.extend(dfs(child_node, current_prefix + letter))
+                    words.extend(dfs(child_node, current_word + letter))
                 return words
 
-            return dfs(ptr, prefix)
+            return dfs(node, prefix)
   description: |
     Time Complexity: 
       - insert: O(n), where n is the length of the word.
@@ -101,6 +104,8 @@
       - Insert an empty string: trie.insert("") should work.
       - Search for a word that does not exist: trie.search("word") should return False.
       - Autocomplete with no matches: trie.autocomplete("xyz") should return [].
+    Paradigms:
+      - Tree-Based Search
 
 - front: 'Singly-Linked List'
   back: |
@@ -223,6 +228,9 @@
       - Empty list: detect_cycle(None) should return False.
       - Deleting from an empty list: delete_node(None, 1) should return None.
       - Merging two empty lists: merge_sorted_lists(None, None) should return None.
+    Paradigms:
+      - Linear Data Structures
+      - Pointer Manipulation
 
 - front: 'Breadth First Search (Graph)'
   back: |
@@ -247,6 +255,9 @@
     Edge Cases:
       - Empty graph: bfs_graph({}, 'A') should return nothing.
       - Graph with disconnected components: bfs_graph({'A': ['B'], 'B': ['A'], 'C': []}, 'A') should print A, B.
+    Paradigms:
+      - Graph Traversal
+      - Queue-Based Search
 
 - front: 'Depth First Search: Iterative (Graph)'
   back: |
@@ -269,6 +280,9 @@
     Edge Cases:
       - Empty graph: dfs_iterative({}, 'A') should return nothing.
       - Graph with no edges: dfs_iterative({'A': []}, 'A') should only print A.
+    Paradigms:
+      - Graph Traversal
+      - Stack-Based Search
 
 - front: 'Depth First Search: Recursive (Graph)'
   back: |
@@ -288,8 +302,10 @@
       - Explore all nodes in a graph recursively.
     Edge Cases:
       - Empty graph: dfs_recursive({}, 'A') should return nothing.
-    paradigm:
-    Graph Traversal
+    Paradigms:
+      - Graph traversal
+      - Recursion
+
 - front: 'Dijkstra’s Algorithm (Shortest Path)'
   back: |
     import heapq
@@ -317,7 +333,9 @@
       - Find the shortest path in weighted graphs.
     Edge Cases:
       - Graph with no path: dijkstra({'A': [('B', 1)], 'B': [('A', 1)]}, 'A') should return {'A': 0, 'B': 1}.
-      - Graph with negative weights: should be handled with Bellman-Ford instead.
+      - Graph with negative weights: doesn't work correctly for graphs with negative weights. Use Bellman-Ford instead.
+    Paradigms:
+      - Greedy Algorithm
 
 - front: 'Kruskal’s Algorithm (Minimum Spanning Tree)'
   back: |
@@ -360,6 +378,8 @@
       - Finding Minimum Spanning Tree in a graph.
     Edge Cases:
       - Disconnected graph: kruskal([...], 5) will handle with appropriate edges.
+    Paradigms:
+      - Greedy Algorithm
 
 - front: 'Heap Sort'
   back: |
@@ -374,6 +394,9 @@
     Edge Cases:
      - Empty list: heap_sort([]) should return [].
      - Already sorted list: heap_sort([1, 2, 3]) should return [1, 2, 3].
+    Paradigms:
+      - Heap-based Sorting
+      - Selection-based Sorting
 
 - front: 'Topological Sorting (Kahn’s Algorithm)'
   back: |
@@ -403,6 +426,8 @@
     Edge Cases:
       - Graph with cycles: topological_sort({'A': ['B'], 'B': ['A']}) should return an empty list [].
       - Graph with no edges: topological_sort({'A': [], 'B': []}) should return ['A', 'B'].
+    Paradigms:
+      - Graph Traversal
 
 - front: 'Merge Sort'
   back: |
@@ -419,6 +444,8 @@
     Edge Cases:
       - Empty list: merge_sort([]) should return [].
       - List with one element: merge_sort([1]) should return [1].
+    Paradigms:
+      - Divide and Conquer
 
 - front: 'Quicksort'
   back: |
@@ -437,6 +464,8 @@
     Edge Cases:
       - Empty list: quicksort([]) should return [].
       - List with identical elements: quicksort([1, 1, 1]) should return [1, 1, 1].
+    Paradigms:
+      - Divide and Conquer
 
 - front: 'Breadth First Traversal (Tree, Level Order)'
   back: |
@@ -465,6 +494,9 @@
     Edge Cases:
       - Empty tree: bfs_tree(None) should return nothing.
       - Tree with one node: bfs_tree(TreeNode(1)) should print 1.
+    Paradigms:
+      - Tree Traversal
+      - Level Order Traversal
 
 - front: 'Depth First Traversal (Tree Version: Preorder, Inorder, Postorder)'
   back: |
@@ -497,6 +529,9 @@
     Edge Cases:
       - Empty tree: preorder(None), inorder(None), and postorder(None) should print nothing.
       - Tree with one node: preorder(TreeNode(1)), inorder(TreeNode(1)), and postorder(TreeNode(1)) should print 1.
+    Paradigms:
+      - Tree Traversal
+      - Recursion
 
 - front: 'Floyd-Warshall'
   back: |
@@ -527,7 +562,8 @@
     Edge Cases:
       - Graph with no edges: The result will show infinite distances between all non-connected pairs.
       - Graph with negative weights: The algorithm handles negative weights but not negative weight cycles.
-    Paradigm: Dynamic Programming
+    Paradigms:
+      - Dynamic Programming
 
 - front: 'Bellman-Ford'
   back: |
@@ -558,4 +594,6 @@
     Edge Cases:
       - Graph with no edges: The result will be distances as 'inf' for all vertices except the source.
       - Graph with negative weight cycles: Will raise an exception.
-    Paradigm: Dynamic Programming
+      - It is slower than Dijkstra’s and should be used specifically when negative edge weights are involved.
+    Paradigms:
+      - Dynamic Programming
