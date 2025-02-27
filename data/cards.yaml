@@ -528,3 +528,34 @@
       - Graph with no edges: The result will show infinite distances between all non-connected pairs.
       - Graph with negative weights: The algorithm handles negative weights but not negative weight cycles.
     Paradigm: Dynamic Programming
+
+- front: 'Bellman-Ford'
+  back: |
+    def bellman_ford(graph, start):
+        distances = {vertex: float('inf') for vertex in graph}
+        distances[start] = 0
+
+        for _ in range(len(graph) - 1):
+            for u in graph:
+                for v, weight in graph[u].items():
+                    if distances[u] + weight < distances[v]:
+                        distances[v] = distances[u] + weight
+
+        # Detect negative cycles
+        for u in graph:
+            for v, weight in graph[u].items():
+                if distances[u] + weight < distances[v]:
+                    raise ValueError("Graph contains a negative weight cycle")
+
+        return distances
+  description: |
+    Time Complexity: O(V * E), where V is the number of vertices and E is the number of edges.
+    Space Complexity: O(V), for storing the distance of each vertex.
+    Use Cases:
+      - Find the shortest path from a single source to all vertices in a graph.
+      - Can handle graphs with negative edge weights.
+      - Detect negative weight cycles in a graph.
+    Edge Cases:
+      - Graph with no edges: The result will be distances as 'inf' for all vertices except the source.
+      - Graph with negative weight cycles: Will raise an exception.
+    Paradigm: Dynamic Programming
