@@ -47,23 +47,17 @@ my_model = genanki.Model(
 
 # Create the deck
 deck_id = 2059400110
-my_deck = genanki.Deck(deck_id, "Sample Deck")
+my_deck = genanki.Deck(deck_id, "Fundamental Algorithms")
 
-# Load notes from YAML instead of CSV
+# Load notes from YAML
 yaml_file_path = os.path.join(DATA_DIR, "cards.yaml")
 
 with open(yaml_file_path, "r", encoding="utf-8") as file:
     cards = yaml.safe_load(file)
 
-# for card in cards:
-#     note = genanki.Note(
-#         model=my_model,
-#         fields=[card["front"], card["back"]],
-#     )
-#     my_deck.add_note(note)
-
 for card in cards:
-    front_text = html.escape(card["front"])  # Escape HTML special characters
+    # Escape HTML special characters
+    front_text = html.escape(card["front"])
     back_text = html.escape(card["back"])
 
     note = genanki.Note(
