@@ -497,3 +497,34 @@
     Edge Cases:
       - Empty tree: preorder(None), inorder(None), and postorder(None) should print nothing.
       - Tree with one node: preorder(TreeNode(1)), inorder(TreeNode(1)), and postorder(TreeNode(1)) should print 1.
+
+- front: 'Floyd-Warshall'
+  back: |
+    def floyd_warshall(graph):
+        dist = {i: {j: float('inf') for j in graph} for i in graph}
+        
+        # Distance from a node to itself is 0
+        for node in graph:
+            dist[node][node] = 0
+            
+        for u in graph:
+            for v, weight in graph[u].items():
+                dist[u][v] = weight
+
+        for k in graph:
+            for i in graph:
+                for j in graph:
+                    if dist[i][j] > dist[i][k] + dist[k][j]:
+                        dist[i][j] = dist[i][k] + dist[k][j]
+
+        return dist
+  description: |
+    Time Complexity: O(V^3), where V is the number of vertices in the graph.
+    Space Complexity: O(V^2), due to the 2D matrix for distances.
+    Use Cases:
+      - Find the shortest path between all pairs of vertices in a graph.
+      - Can be used for detecting negative cycles.
+    Edge Cases:
+      - Graph with no edges: The result will show infinite distances between all non-connected pairs.
+      - Graph with negative weights: The algorithm handles negative weights but not negative weight cycles.
+    Paradigm: Dynamic Programming
