@@ -148,32 +148,23 @@
 
 - front: 'Trie: Autocomplete'
   back: |
-    class TrieNode:
-        def __init__(self):
-            self.children = {}
-            self.final_node = False
+    def autocomplete(prefix) -> list:
+        node = self.root
+        for letter in prefix:
+            if letter not in node.children:
+                return []  # No words with this prefix
+            node = node.children[letter]
 
-    class Trie:
-        def __init__(self):
-            self.root = TrieNode()
+        # Perform DFS to collect all words from this node onward
+        def dfs(node, current_word):
+            words = []
+            if node.final_node:
+                words.append(current_word)
+            for letter, child_node in node.children.items():
+                words.extend(dfs(child_node, current_word + letter))
+            return words
 
-        def autocomplete(self, prefix) -> list:
-            node = self.root
-            for letter in prefix:
-                if letter not in node.children:
-                    return []  # No words with this prefix
-                node = node.children[letter]
-
-            # Perform DFS to collect all words from this node onward
-            def dfs(node, current_word):
-                words = []
-                if node.final_node:
-                    words.append(current_word)
-                for letter, child_node in node.children.items():
-                    words.extend(dfs(child_node, current_word + letter))
-                return words
-
-            return dfs(node, prefix)
+        return dfs(node, prefix)
   description: |
     Time Complexity: 
       - autocomplete: O(m), where m is the number of words starting with the prefix.
@@ -187,19 +178,12 @@
 
 - front: 'Singly-Linked List: Insert at the head'
   back: |
-    class ListNode:
-        def __init__(self, val = 0, next = None):
-            self.val = val
-            self.next = next
-
-    class SinglyLinkedList:
-
-        def insert_at_head(self, head, val) -> ListNode:
-            new_node = ListNode(val)
-            if not head:
-              return new_node
-            new_node.next = head
-            return new_node
+    def insert_at_head(head, val) -> ListNode:
+        new_node = ListNode(val)
+        if not head:
+          return new_node
+        new_node.next = head
+        return new_node
   description: |
     Time Complexity:
       - insert_at_head: O(1), constant time.
@@ -212,22 +196,15 @@
 
 - front: 'Singly-Linked List: Insert at the Tail'
   back: |
-    class ListNode:
-        def __init__(self, val = 0, next = None):
-            self.val = val
-            self.next = next
-
-    class SinglyLinkedList:
-        
-        def insert_at_tail(self, head, val) -> ListNode:
-            new_node = ListNode(val)
-            if not head:
-                return new_node
-            ptr = head
-            while ptr.next:
-                ptr = ptr.next
-            ptr.next = new_node
-            return head
+    def insert_at_tail(head, val) -> ListNode:
+        new_node = ListNode(val)
+        if not head:
+            return new_node
+        ptr = head
+        while ptr.next:
+            ptr = ptr.next
+        ptr.next = new_node
+        return head
 
   description: |
     Time Complexity:
@@ -241,23 +218,16 @@
 
 - front: 'Singly-Linked List: Delete Node'
   back: |
-    class ListNode:
-        def __init__(self, val = 0, next = None):
-            self.val = val
-            self.next = next
-
-    class SinglyLinkedList:
-
-        def delete_node(self, head, val) -> ListNode:
-            if head.val == val:
-                return head.next
-            ptr = head
-            while ptr and ptr.next:
-                if ptr.next.val == val:
-                    ptr.next = ptr.next.next
-                    break
-                ptr = ptr.next
-            return head
+    def delete_node(head, val) -> ListNode:
+        if head.val == val:
+            return head.next
+        ptr = head
+        while ptr and ptr.next:
+            if ptr.next.val == val:
+                ptr.next = ptr.next.next
+                break
+            ptr = ptr.next
+        return head
 
   description: |
     Time Complexity:
@@ -272,29 +242,22 @@
 
 - front: 'Singly-Linked List: Add at index'
   back: |
-    class ListNode:
-        def __init__(self, val = 0, next = None):
-            self.val = val
-            self.next = next
-
-    class SinglyLinkedList:
-
-        def add_at_index(self, head, index, val) -> ListNode:
-            if index < 0:
-                return head
-            new_node = ListNode(val)
-            if index == 0:
-                new_node.next = head
-                return new_node
-            ptr = head
-            for i in range(index - 1):
-                if not ptr:
-                    return head
-                ptr = ptr.next
-            if ptr:
-                new_node.next = ptr.next
-                ptr.next = new_node
+    def add_at_index(head, index, val) -> ListNode:
+        if index < 0:
             return head
+        new_node = ListNode(val)
+        if index == 0:
+            new_node.next = head
+            return new_node
+        ptr = head
+        for i in range(index - 1):
+            if not ptr:
+                return head
+            ptr = ptr.next
+        if ptr:
+            new_node.next = ptr.next
+            ptr.next = new_node
+        return head
 
   description: |
     Time Complexity:
@@ -308,26 +271,19 @@
 
 - front: 'Singly-Linked List: Delete at index'
   back: |
-    class ListNode:
-        def __init__(self, val = 0, next = None):
-            self.val = val
-            self.next = next
-
-    class SinglyLinkedList:
-
-        def delete_at_index(self, head, index) -> ListNode:
-            if not head or index < 0:
-              return head
-            if index == 0:
-                return head.next
-            ptr = head
-            for i in range(index - 1):
-                if not ptr:
-                    return head
-                ptr = ptr.next
-            if ptr and ptr.next:
-                ptr.next = ptr.next.next
-            return head
+    def delete_at_index(head, index) -> ListNode:
+        if not head or index < 0:
+          return head
+        if index == 0:
+            return head.next
+        ptr = head
+        for i in range(index - 1):
+            if not ptr:
+                return head
+            ptr = ptr.next
+        if ptr and ptr.next:
+            ptr.next = ptr.next.next
+        return head
 
   description: |
     Time Complexity:
@@ -341,26 +297,19 @@
 
 - front: 'Singly-Linked List: Merge sorted list'
   back: |
-    class ListNode:
-        def __init__(self, val = 0, next = None):
-            self.val = val
-            self.next = next
-
-    class SinglyLinkedList:
-
-        def merge_sorted_lists(self, l1, l2):
-            dummy = ListNode()
-            current = dummy
-            while l1 and l2:
-                if l1.val < l2.val:
-                    current.next = l1
-                    l1 = l1.next
-                else:
-                    current.next = l2
-                    l2 = l2.next
-                current = current.next
-            current.next = l1 if l1 else l2
-            return dummy.next
+    def merge_sorted_lists(l1, l2):
+        dummy = ListNode()
+        current = dummy
+        while l1 and l2:
+            if l1.val < l2.val:
+                current.next = l1
+                l1 = l1.next
+            else:
+                current.next = l2
+                l2 = l2.next
+            current = current.next
+        current.next = l1 if l1 else l2
+        return dummy.next
 
   description: |
     Time Complexity:
@@ -375,14 +324,7 @@
 
 - front: 'Singly-Linked List: Reverse List'
   back: |
-    class ListNode:
-        def __init__(self, val = 0, next = None):
-            self.val = val
-            self.next = next
-
-    class SinglyLinkedList:
-
-        def reverse_list(self, head) -> ListNode:
+    def reverse_list(head) -> ListNode:
             l = None 
             m = head
             r = None
@@ -407,14 +349,7 @@
 
 - front: 'Singly-Linked List: Detect cycle'
   back: |
-    class ListNode:
-        def __init__(self, val = 0, next = None):
-            self.val = val
-            self.next = next
-
-    class SinglyLinkedList:
-
-        def detect_cycle(self, head) -> bool:
+    def detect_cycle(head) -> bool:
             sptr = head  # Slow pointer
             fptr = head  # Fast pointer
             
