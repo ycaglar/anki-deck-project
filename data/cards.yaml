@@ -223,10 +223,10 @@
             new_node = ListNode(val)
             if not head:
                 return new_node
-            curr = head
-            while curr.next:
-                curr = curr.next
-            curr.next = new_node
+            ptr = head
+            while ptr.next:
+                ptr = ptr.next
+            ptr.next = new_node
             return head
 
   description: |
@@ -249,16 +249,14 @@
     class SinglyLinkedList:
 
         def delete_node(self, head, val) -> ListNode:
-            if not head:
-                return None
             if head.val == val:
                 return head.next
-            curr = head
-            while curr and curr.next:
-                if curr.next.val == val:
-                    curr.next = curr.next.next
+            ptr = head
+            while ptr and ptr.next:
+                if ptr.next.val == val:
+                    ptr.next = ptr.next.next
                     break
-                curr = curr.next
+                ptr = ptr.next
             return head
 
   description: |
@@ -288,14 +286,14 @@
             if index == 0:
                 new_node.next = head
                 return new_node
-            curr = head
+            ptr = head
             for i in range(index - 1):
-                if not curr:
+                if not ptr:
                     return head
-                curr = curr.next
-            if curr:
-                new_node.next = curr.next
-                curr.next = new_node
+                ptr = ptr.next
+            if ptr:
+                new_node.next = ptr.next
+                ptr.next = new_node
             return head
 
   description: |
@@ -318,17 +316,17 @@
     class SinglyLinkedList:
 
         def delete_at_index(self, head, index) -> ListNode:
-            if index < 0:
-                return head
+            if not head or index < 0:
+              return head
             if index == 0:
                 return head.next
-            curr = head
+            ptr = head
             for i in range(index - 1):
-                if not curr:
+                if not ptr:
                     return head
-                curr = curr.next
-            if curr and curr.next:
-                curr.next = curr.next.next
+                ptr = ptr.next
+            if ptr and ptr.next:
+                ptr.next = ptr.next.next
             return head
 
   description: |
@@ -463,6 +461,7 @@
     Paradigms:
       - Graph Traversal
       - Queue-Based Search
+      - FIFO
 
 - front: 'Depth First Search: Iterative (Graph)'
   back: |
@@ -488,6 +487,7 @@
     Paradigms:
       - Graph Traversal
       - Stack-Based Search
+      - LIFO
 
 - front: 'Depth First Search: Recursive (Graph)'
   back: |
@@ -608,18 +608,18 @@
     from collections import deque
 
     def topological_sort(graph):
-        in_degree = {node: 0 for node in graph}
-        for node in graph:
-            for neighbor in graph[node]:
+        in_degree = {vertex: 0 for vertex in graph}
+        for vertex in graph:
+            for neighbor in graph[vertex]:
                 in_degree[neighbor] += 1
 
-        que = deque([node for node in in_degree if in_degree[node] == 0])
+        que = deque([vertex for vertex in in_degree if in_degree[vertex] == 0])
         result = []
 
         while que:
-            node = que.popleft()
-            result.append(node)
-            for neighbor in graph[node]:
+            vertex = que.popleft()
+            result.append(vertex)
+            for neighbor in graph[vertex]:
                 in_degree[neighbor] -= 1
                 if in_degree[neighbor] == 0:
                     que.append(neighbor)
@@ -633,6 +633,7 @@
       - Graph with no edges: topological_sort({'A': [], 'B': []}) should return ['A', 'B'].
     Paradigms:
       - Graph Traversal
+      - FIFO
 
 - front: 'Merge Sort'
   back: |
@@ -707,6 +708,7 @@
     Paradigms:
       - Tree Traversal
       - Level Order Traversal
+      - FIFO
 
 - front: 'Depth First Traversal (Tree: Preorder, Inorder, Postorder)'
   back: |
@@ -748,9 +750,9 @@
     def floyd_warshall(graph):
         dist = {i: {j: float('inf') for j in graph} for i in graph}
         
-        # Distance from a node to itself is 0
-        for node in graph:
-            dist[node][node] = 0
+        # Distance from a vertex to itself is 0
+        for vertex in graph:
+            dist[vertex][vertex] = 0
             
         for u in graph:
             for v, weight in graph[u].items():
