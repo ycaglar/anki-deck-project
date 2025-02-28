@@ -35,11 +35,11 @@
         def __init__(self):
             self.root = TrieNode()
 
-        def insert(self, word) -> None:
-            node = self.root
+        def insert(self, word):
+            ptr = self.root
             for letter in word:
-                node = node.children.setdefault(letter, TrieNode())
-            node.final_node = True
+                ptr = ptr.children.setdefault(letter, TrieNode())
+            ptr.final_node = True
   description: |
     Time Complexity: 
       - insert: O(n), where n is the length of the word.
@@ -63,12 +63,12 @@
             self.root = TrieNode()
 
         def search(self, word) -> bool:
-            node = self.root
+            ptr = self.root
             for letter in word:
-                if letter not in node.children:
+                if letter not in ptr.children:
                     return False
-                node = node.children[letter]
-            return node.final_node
+                ptr = ptr.children[letter]
+            return ptr.final_node
   description: |
     Time Complexity: 
       - search: O(n), where n is the length of the word.
@@ -92,11 +92,11 @@
             self.root = TrieNode()
 
         def search_prefix(self, prefix) -> bool:
-            node = self.root
+            ptr = self.root
             for letter in prefix:
-                if letter not in node.children:
+                if letter not in ptr.children:
                     return False
-                node = node.children[letter]
+                ptr = ptr.children[letter]
             return True
   description: |
     Time Complexity: 
@@ -119,20 +119,20 @@
         def __init__(self):
             self.root = TrieNode()
 
-        def delete(self, word) -> None:
-            def _delete(node, word, index) -> bool:
+        def delete(self, word):
+            def _delete(ptr, word, index) -> bool:
                 if index == len(word):
-                    if not node.final_node:
+                    if not ptr.final_node:
                         return False
-                    node.final_node = False
-                    return len(node.children) == 0  # If no children, delete.
+                    ptr.final_node = False
+                    return len(ptr.children) == 0  # If no children, delete.
                 char = word[index]
-                if char not in node.children:
+                if char not in ptr.children:
                     return False
-                can_delete_child = _delete(node.children[char], word, index + 1)
+                can_delete_child = _delete(ptr.children[char], word, index + 1)
                 if can_delete_child:
-                    del node.children[char]
-                    return len(node.children) == 0 and not node.final_node
+                    del ptr.children[char]
+                    return len(ptr.children) == 0 and not ptr.final_node
                 return False
             
             _delete(self.root, word, 0)
@@ -149,22 +149,22 @@
 - front: 'Trie: Autocomplete'
   back: |
     def autocomplete(prefix) -> list:
-        node = self.root
+        ptr = self.root
         for letter in prefix:
-            if letter not in node.children:
+            if letter not in ptr.children:
                 return []  # No words with this prefix
-            node = node.children[letter]
+            ptr = ptr.children[letter]
 
-        # Perform DFS to collect all words from this node onward
-        def dfs(node, current_word):
+        # Perform DFS to collect all words from this ptr onward
+        def dfs(ptr, current_word):
             words = []
-            if node.final_node:
+            if ptr.final_node:
                 words.append(current_word)
-            for letter, child_node in node.children.items():
+            for letter, child_node in ptr.children.items():
                 words.extend(dfs(child_node, current_word + letter))
             return words
 
-        return dfs(node, prefix)
+        return dfs(ptr, prefix)
   description: |
     Time Complexity: 
       - autocomplete: O(m), where m is the number of words starting with the prefix.
@@ -382,8 +382,8 @@
             vertex = que.popleft()
             if vertex not in visited:
                 print(vertex)
-                visited.add(vertex)
                 que.extend(graph.get(vertex, []))
+                visited.add(vertex)
   description: |
     Time Complexity: O(V + E), where V is the number of vertices and E is the number of edges.
     Space Complexity: O(V), space for visited nodes and the queue.
