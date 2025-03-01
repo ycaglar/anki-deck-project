@@ -14,6 +14,8 @@
                 return m
         
         return -1
+  time-complexity:
+  space-complexity:
   description: |
     Time Complexity: O(log n)
     Space Complexity: O(1)
@@ -40,6 +42,8 @@
             for letter in word:
                 ptr = ptr.children.setdefault(letter, TrieNode())
             ptr.final_node = True
+  time-complexity:
+  space-complexity:
   description: |
     Time Complexity: 
       - insert: O(n), where n is the length of the word.
@@ -69,6 +73,8 @@
                     return False
                 ptr = ptr.children[letter]
             return ptr.final_node
+  time-complexity:
+  space-complexity:
   description: |
     Time Complexity: 
       - search: O(n), where n is the length of the word.
@@ -98,6 +104,8 @@
                     return False
                 ptr = ptr.children[letter]
             return True
+  time-complexity:
+  space-complexity:
   description: |
     Time Complexity: 
       - search_prefix: O(n), where n is the length of the prefix.
@@ -136,6 +144,8 @@
                 return False
             
             _delete(self.root, word, 0)
+  time-complexity:
+  space-complexity:
   description: |
     Time Complexity: 
       - delete: O(n), where n is the length of the word.
@@ -165,6 +175,8 @@
             return words
 
         return dfs(ptr, prefix)
+  time-complexity:
+  space-complexity:
   description: |
     Time Complexity: 
       - autocomplete: O(m), where m is the number of words starting with the prefix.
@@ -184,6 +196,8 @@
           return new_node
         new_node.next = head
         return new_node
+  time-complexity:
+  space-complexity:
   description: |
     Time Complexity:
       - insert_at_head: O(1), constant time.
@@ -205,6 +219,8 @@
             ptr = ptr.next
         ptr.next = new_node
         return head
+  time-complexity:
+  space-complexity:
   description: |
     Time Complexity:
       - insert_at_tail: O(n), where n is the number of nodes.
@@ -227,6 +243,8 @@
                 break
             ptr = ptr.next
         return head
+  time-complexity:
+  space-complexity:
   description: |
     Time Complexity:
       - delete_node: O(n), where n is the number of nodes.
@@ -240,7 +258,7 @@
 
 - front: 'Singly-Linked List: Insert at index'
   back: |
-    def add_at_index(head, index, val) -> ListNode:
+    def insert_at_index(head, index, val) -> ListNode:
         if index < 0:
             return head
         new_node = ListNode(val)
@@ -256,9 +274,11 @@
             new_node.next = ptr.next
             ptr.next = new_node
         return head
+  time-complexity:
+  space-complexity:
   description: |
     Time Complexity:
-      - add_at_index: O(n), where n is the number of nodes.
+      - insert_at_index: O(n), where n is the number of nodes.
     Space Complexity: O(1).
     Edge Cases:
     Paradigms:
@@ -281,6 +301,8 @@
         if ptr and ptr.next:
             ptr.next = ptr.next.next
         return head
+  time-complexity:
+  space-complexity:
   description: |
     Time Complexity:
       - delete_at_index: O(n), where n is the number of nodes.
@@ -306,6 +328,8 @@
             ptr = ptr.next
         ptr.next = l1 if l1 else l2
         return dummy.next
+  time-complexity:
+  space-complexity:
   description: |
     Time Complexity:
       - merge_sorted_lists: O(n + m), where n and m are the lengths of the two lists.
@@ -331,6 +355,8 @@
                 m = r
             
             return l
+  time-complexity:
+  space-complexity:
   description: |
     Time Complexity:
       - reverse_list: O(n), where n is the number of nodes.
@@ -353,6 +379,8 @@
                 if sptr == fptr:
                     return True
             return False
+  time-complexity:
+  space-complexity:
   description: |
     Time Complexity:
       - detect_cycle: O(n), where n is the number of nodes.
@@ -377,6 +405,8 @@
                 print(vertex)
                 que.extend(graph.get(vertex, []))
                 visited.add(vertex)
+  time-complexity:
+  space-complexity:
   description: |
     Time Complexity: O(V + E), where V is the number of vertices and E is the number of edges.
     Space Complexity: O(V), space for visited nodes and the queue.
@@ -403,6 +433,8 @@
                 print(vertex)
                 visited.add(vertex)
                 stack.extend(graph.get(vertex, []))
+  time-complexity:
+  space-complexity:
   description: |
     Time Complexity: O(V + E), where V is the number of vertices and E is the number of edges.
     Space Complexity: O(V), space for visited nodes and the stack.
@@ -428,6 +460,8 @@
         for neighbor in graph.get(start_vertex, []):
             if neighbor not in visited:
                 dfs(graph, neighbor, visited)
+  time-complexity:
+  space-complexity:
   description: |
     Time Complexity: O(V + E), where V is the number of vertices and E is the number of edges.
     Space Complexity: O(V), due to the recursion stack.
@@ -459,6 +493,8 @@
                     heapq.heappush(heap, (distance, neighbor))
 
         return distances
+  time-complexity:
+  space-complexity:
   description: |
     Time Complexity: O((V + E) log V), due to heap operations.
     Space Complexity: O(V), space for storing distances.
@@ -504,6 +540,8 @@
                 mst.append((u, v, weight))
 
         return mst
+  time-complexity:
+  space-complexity:
   description: |
     Time Complexity: O(E log E), where E is the number of edges.
     Space Complexity: O(V), space for the Union-Find structure.
@@ -521,6 +559,8 @@
     def heap_sort(arr):
         heapq.heapify(arr)
         return [heapq.heappop(arr) for _ in range(len(arr))]
+  time-complexity:
+  space-complexity:
   description: |
     Time Complexity: O(n log n), where n is the number of elements.
     Space Complexity: O(n), due to the heap structure.
@@ -553,6 +593,8 @@
                     que.append(neighbor)
         # Return empty if cycle exists
         return result if len(result) == len(graph) else []
+  time-complexity:
+  space-complexity:
   description: |
     Time Complexity: O(V + E), where V is the number of vertices and E is the number of edges.
     Space Complexity: O(V), space for storing in-degree and the queue.
@@ -572,6 +614,8 @@
         left = merge_sort(arr[:mid])
         right = merge_sort(arr[mid:])
         return sorted(left + right)
+  time-complexity:
+  space-complexity:
   description: |
     Time Complexity: O(n log n), where n is the number of elements.
     Space Complexity: O(n), due to the space for the sorted array.
@@ -595,6 +639,8 @@
         middle = [x for x in arr if x == pivot]
         right = [x for x in arr if x > pivot]
         return quicksort(left) + middle + quicksort(right)
+  time-complexity:
+  space-complexity:
   description: |
     Time Complexity: O(n log n) on average, O(n^2) in the worst case.
     Space Complexity: O(log n) due to recursion stack.
@@ -621,6 +667,8 @@
                 que.append(node.left)
             if node.right:
                 que.append(node.right)
+  time-complexity:
+  space-complexity:
   description: |
     Time Complexity: O(n), where n is the number of nodes.
     Space Complexity: O(n), space for the queue.
@@ -639,6 +687,8 @@
             print(root.val)
             dfs_preorder(root.left)
             dfs_preorder(root.right)
+  time-complexity:
+  space-complexity:
   description: |
     Time Complexity: O(n), where n is the number of nodes.
     Space Complexity: O(h), where h is the height of the tree (due to recursion stack).
@@ -669,6 +719,8 @@
                     if dist[ov][dv] > dist[ov][mv] + dist[mv][dv]:
                         dist[ov][dv] = dist[ov][mv] + dist[mv][dv]
         return dist
+  time-complexity:
+  space-complexity:
   description: |
     Time Complexity: O(V^3), where V is the number of vertices in the graph.
     Space Complexity: O(V^2), due to the 2D matrix for distances.
@@ -700,6 +752,8 @@
                     raise ValueError('Graph contains a negative weight cycle')
 
         return distances
+  time-complexity:
+  space-complexity:
   description: |
     Time Complexity: O(V * E), where V is the number of vertices and E is the number of edges.
     Space Complexity: O(V), for storing the distance of each vertex.
