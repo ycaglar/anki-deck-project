@@ -31,9 +31,8 @@
 
   <div class="dropdown-container">
     <div class="dropdown">
-      <label for="time-complexity">Time Complexity</label>
       <select name="dropdown-list" id="time-complexity">
-        <option value="">Select</option>
+        <option value="">Time Complexity</option>
         <option value="constant">&#119874;(1): Constant</option>
         <option value="logarithmic">&#119874;(log₂n): Logarithmic</option>
         <option value="polylogarithmic">
@@ -49,9 +48,8 @@
       </select>
     </div>
     <div class="dropdown">
-      <label for="space-complexity">Space Complexity</label>
       <select name="dropdown-list" id="time-complexity">
-        <option value="">Select</option>
+        <option value="">Space Complexity</option>
         <option value="constant">&#119874;(1): Constant</option>
         <option value="logarithmic">&#119874;(log₂n): Logarithmic</option>
         <option value="polylogarithmic">
@@ -113,7 +111,7 @@
       const container = document.getElementById('code-editor-container');
       const availableHeight =
         window.innerHeight - container.getBoundingClientRect().top; // Remaining space from the top of the container to the viewport bottom
-      editor.setSize('100%', availableHeight); // Set CodeMirror's size dynamically
+      editor.setSize('100%', availableHeight * 0.96); // Set CodeMirror's size dynamically
     }
 
     resizeEditor();
