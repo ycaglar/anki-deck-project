@@ -14,6 +14,8 @@
                 return m
         
         return -1
+  time-complexity:
+  space-complexity:
   description: |
     Time Complexity: O(log n)
     Space Complexity: O(1)
@@ -40,6 +42,8 @@
             for letter in word:
                 ptr = ptr.children.setdefault(letter, TrieNode())
             ptr.final_node = True
+  time-complexity:
+  space-complexity:
   description: |
     Time Complexity: 
       - insert: O(n), where n is the length of the word.
@@ -69,6 +73,8 @@
                     return False
                 ptr = ptr.children[letter]
             return ptr.final_node
+  time-complexity:
+  space-complexity:
   description: |
     Time Complexity: 
       - search: O(n), where n is the length of the word.
@@ -98,6 +104,8 @@
                     return False
                 ptr = ptr.children[letter]
             return True
+  time-complexity:
+  space-complexity:
   description: |
     Time Complexity: 
       - search_prefix: O(n), where n is the length of the prefix.
@@ -136,6 +144,8 @@
                 return False
             
             _delete(self.root, word, 0)
+  time-complexity:
+  space-complexity:
   description: |
     Time Complexity: 
       - delete: O(n), where n is the length of the word.
@@ -165,6 +175,8 @@
             return words
 
         return dfs(ptr, prefix)
+  time-complexity:
+  space-complexity:
   description: |
     Time Complexity: 
       - autocomplete: O(m), where m is the number of words starting with the prefix.
@@ -184,6 +196,8 @@
           return new_node
         new_node.next = head
         return new_node
+  time-complexity:
+  space-complexity:
   description: |
     Time Complexity:
       - insert_at_head: O(1), constant time.
@@ -205,7 +219,8 @@
             ptr = ptr.next
         ptr.next = new_node
         return head
-
+  time-complexity:
+  space-complexity:
   description: |
     Time Complexity:
       - insert_at_tail: O(n), where n is the number of nodes.
@@ -228,7 +243,8 @@
                 break
             ptr = ptr.next
         return head
-
+  time-complexity:
+  space-complexity:
   description: |
     Time Complexity:
       - delete_node: O(n), where n is the number of nodes.
@@ -240,9 +256,9 @@
       - Pointer Manipulation
       - Linked List
 
-- front: 'Singly-Linked List: Add at index'
+- front: 'Singly-Linked List: Insert at index'
   back: |
-    def add_at_index(head, index, val) -> ListNode:
+    def insert_at_index(head, index, val) -> ListNode:
         if index < 0:
             return head
         new_node = ListNode(val)
@@ -258,10 +274,11 @@
             new_node.next = ptr.next
             ptr.next = new_node
         return head
-
+  time-complexity:
+  space-complexity:
   description: |
     Time Complexity:
-      - add_at_index: O(n), where n is the number of nodes.
+      - insert_at_index: O(n), where n is the number of nodes.
     Space Complexity: O(1).
     Edge Cases:
     Paradigms:
@@ -284,7 +301,8 @@
         if ptr and ptr.next:
             ptr.next = ptr.next.next
         return head
-
+  time-complexity:
+  space-complexity:
   description: |
     Time Complexity:
       - delete_at_index: O(n), where n is the number of nodes.
@@ -299,18 +317,19 @@
   back: |
     def merge_sorted_lists(l1, l2):
         dummy = ListNode()
-        current = dummy
+        ptr = dummy
         while l1 and l2:
             if l1.val < l2.val:
-                current.next = l1
+                ptr.next = l1
                 l1 = l1.next
             else:
-                current.next = l2
+                ptr.next = l2
                 l2 = l2.next
-            current = current.next
-        current.next = l1 if l1 else l2
+            ptr = ptr.next
+        ptr.next = l1 if l1 else l2
         return dummy.next
-
+  time-complexity:
+  space-complexity:
   description: |
     Time Complexity:
       - merge_sorted_lists: O(n + m), where n and m are the lengths of the two lists.
@@ -336,7 +355,8 @@
                 m = r
             
             return l
-
+  time-complexity:
+  space-complexity:
   description: |
     Time Complexity:
       - reverse_list: O(n), where n is the number of nodes.
@@ -350,8 +370,8 @@
 - front: 'Singly-Linked List: Detect cycle'
   back: |
     def detect_cycle(head) -> bool:
-            sptr = head  # Slow pointer
-            fptr = head  # Fast pointer
+            sptr = head
+            fptr = head
             
             while fptr and fptr.next:
                 sptr = sptr.next
@@ -359,7 +379,8 @@
                 if sptr == fptr:
                     return True
             return False
-
+  time-complexity:
+  space-complexity:
   description: |
     Time Complexity:
       - detect_cycle: O(n), where n is the number of nodes.
@@ -384,6 +405,8 @@
                 print(vertex)
                 que.extend(graph.get(vertex, []))
                 visited.add(vertex)
+  time-complexity:
+  space-complexity:
   description: |
     Time Complexity: O(V + E), where V is the number of vertices and E is the number of edges.
     Space Complexity: O(V), space for visited nodes and the queue.
@@ -410,6 +433,8 @@
                 print(vertex)
                 visited.add(vertex)
                 stack.extend(graph.get(vertex, []))
+  time-complexity:
+  space-complexity:
   description: |
     Time Complexity: O(V + E), where V is the number of vertices and E is the number of edges.
     Space Complexity: O(V), space for visited nodes and the stack.
@@ -435,6 +460,8 @@
         for neighbor in graph.get(start_vertex, []):
             if neighbor not in visited:
                 dfs(graph, neighbor, visited)
+  time-complexity:
+  space-complexity:
   description: |
     Time Complexity: O(V + E), where V is the number of vertices and E is the number of edges.
     Space Complexity: O(V), due to the recursion stack.
@@ -466,6 +493,8 @@
                     heapq.heappush(heap, (distance, neighbor))
 
         return distances
+  time-complexity:
+  space-complexity:
   description: |
     Time Complexity: O((V + E) log V), due to heap operations.
     Space Complexity: O(V), space for storing distances.
@@ -511,6 +540,8 @@
                 mst.append((u, v, weight))
 
         return mst
+  time-complexity:
+  space-complexity:
   description: |
     Time Complexity: O(E log E), where E is the number of edges.
     Space Complexity: O(V), space for the Union-Find structure.
@@ -528,6 +559,8 @@
     def heap_sort(arr):
         heapq.heapify(arr)
         return [heapq.heappop(arr) for _ in range(len(arr))]
+  time-complexity:
+  space-complexity:
   description: |
     Time Complexity: O(n log n), where n is the number of elements.
     Space Complexity: O(n), due to the heap structure.
@@ -558,8 +591,10 @@
                 in_degree[neighbor] -= 1
                 if in_degree[neighbor] == 0:
                     que.append(neighbor)
-
-        return result if len(result) == len(graph) else []  # Return empty if cycle exists
+        # Return empty if cycle exists
+        return result if len(result) == len(graph) else []
+  time-complexity:
+  space-complexity:
   description: |
     Time Complexity: O(V + E), where V is the number of vertices and E is the number of edges.
     Space Complexity: O(V), space for storing in-degree and the queue.
@@ -579,6 +614,8 @@
         left = merge_sort(arr[:mid])
         right = merge_sort(arr[mid:])
         return sorted(left + right)
+  time-complexity:
+  space-complexity:
   description: |
     Time Complexity: O(n log n), where n is the number of elements.
     Space Complexity: O(n), due to the space for the sorted array.
@@ -602,6 +639,8 @@
         middle = [x for x in arr if x == pivot]
         right = [x for x in arr if x > pivot]
         return quicksort(left) + middle + quicksort(right)
+  time-complexity:
+  space-complexity:
   description: |
     Time Complexity: O(n log n) on average, O(n^2) in the worst case.
     Space Complexity: O(log n) due to recursion stack.
@@ -617,12 +656,6 @@
   back: |
     from collections import deque
 
-    class TreeNode:
-        def __init__(self, val):
-            self.val = val
-            self.left = None
-            self.right = None
-
     def bfs(root):
         if not root:
             return
@@ -634,6 +667,8 @@
                 que.append(node.left)
             if node.right:
                 que.append(node.right)
+  time-complexity:
+  space-complexity:
   description: |
     Time Complexity: O(n), where n is the number of nodes.
     Space Complexity: O(n), space for the queue.
@@ -645,31 +680,15 @@
       - Level Order Traversal
       - FIFO
 
-- front: 'Depth First Traversal (Tree: Preorder, Inorder, Postorder)'
+- front: 'Depth First Traversal: Recursive, Tree, Preorder'
   back: |
-    class TreeNode:
-        def __init__(self, val):
-            self.val = val
-            self.left = None
-            self.right = None
-
     def dfs_preorder(root):
         if root:
             print(root.val)
             dfs_preorder(root.left)
             dfs_preorder(root.right)
-
-    def dfs_inorder(root):
-        if root:
-            dfs_inorder(root.left)
-            print(root.val)
-            dfs_inorder(root.right)
-
-    def dfs_postorder(root):
-        if root:
-            dfs_postorder(root.left)
-            dfs_postorder(root.right)
-            print(root.val)
+  time-complexity:
+  space-complexity:
   description: |
     Time Complexity: O(n), where n is the number of nodes.
     Space Complexity: O(h), where h is the height of the tree (due to recursion stack).
@@ -679,27 +698,29 @@
     Paradigms:
       - Tree Traversal
       - Recursion
+      - LIFO
 
 - front: 'Floyd-Warshall'
   back: |
     def floyd_warshall(graph):
-        dist = {i: {j: float('inf') for j in graph} for i in graph}
+        dist = {ov: {dv: float('inf') for dv in graph} for ov in graph}
         
         # Distance from a vertex to itself is 0
         for vertex in graph:
             dist[vertex][vertex] = 0
             
-        for u in graph:
-            for v, weight in graph[u].items():
-                dist[u][v] = weight
+        for ov, neighbors in graph.items():
+            for dv, weight in neighbors.items():
+              shortest_paths[ov][dv] = weight
 
-        for k in graph:
-            for i in graph:
-                for j in graph:
-                    if dist[i][j] > dist[i][k] + dist[k][j]:
-                        dist[i][j] = dist[i][k] + dist[k][j]
-
+        for mv in graph:
+            for ov in graph:
+                for dv in graph:
+                    if dist[ov][dv] > dist[ov][mv] + dist[mv][dv]:
+                        dist[ov][dv] = dist[ov][mv] + dist[mv][dv]
         return dist
+  time-complexity:
+  space-complexity:
   description: |
     Time Complexity: O(V^3), where V is the number of vertices in the graph.
     Space Complexity: O(V^2), due to the 2D matrix for distances.
@@ -731,6 +752,8 @@
                     raise ValueError('Graph contains a negative weight cycle')
 
         return distances
+  time-complexity:
+  space-complexity:
   description: |
     Time Complexity: O(V * E), where V is the number of vertices and E is the number of edges.
     Space Complexity: O(V), for storing the distance of each vertex.
