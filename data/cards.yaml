@@ -205,7 +205,6 @@
             ptr = ptr.next
         ptr.next = new_node
         return head
-
   description: |
     Time Complexity:
       - insert_at_tail: O(n), where n is the number of nodes.
@@ -228,7 +227,6 @@
                 break
             ptr = ptr.next
         return head
-
   description: |
     Time Complexity:
       - delete_node: O(n), where n is the number of nodes.
@@ -258,7 +256,6 @@
             new_node.next = ptr.next
             ptr.next = new_node
         return head
-
   description: |
     Time Complexity:
       - add_at_index: O(n), where n is the number of nodes.
@@ -284,7 +281,6 @@
         if ptr and ptr.next:
             ptr.next = ptr.next.next
         return head
-
   description: |
     Time Complexity:
       - delete_at_index: O(n), where n is the number of nodes.
@@ -299,18 +295,17 @@
   back: |
     def merge_sorted_lists(l1, l2):
         dummy = ListNode()
-        current = dummy
+        ptr = dummy
         while l1 and l2:
             if l1.val < l2.val:
-                current.next = l1
+                ptr.next = l1
                 l1 = l1.next
             else:
-                current.next = l2
+                ptr.next = l2
                 l2 = l2.next
-            current = current.next
-        current.next = l1 if l1 else l2
+            ptr = ptr.next
+        ptr.next = l1 if l1 else l2
         return dummy.next
-
   description: |
     Time Complexity:
       - merge_sorted_lists: O(n + m), where n and m are the lengths of the two lists.
@@ -336,7 +331,6 @@
                 m = r
             
             return l
-
   description: |
     Time Complexity:
       - reverse_list: O(n), where n is the number of nodes.
@@ -350,8 +344,8 @@
 - front: 'Singly-Linked List: Detect cycle'
   back: |
     def detect_cycle(head) -> bool:
-            sptr = head  # Slow pointer
-            fptr = head  # Fast pointer
+            sptr = head
+            fptr = head
             
             while fptr and fptr.next:
                 sptr = sptr.next
@@ -359,7 +353,6 @@
                 if sptr == fptr:
                     return True
             return False
-
   description: |
     Time Complexity:
       - detect_cycle: O(n), where n is the number of nodes.
@@ -617,12 +610,6 @@
   back: |
     from collections import deque
 
-    class TreeNode:
-        def __init__(self, val):
-            self.val = val
-            self.left = None
-            self.right = None
-
     def bfs(root):
         if not root:
             return
@@ -645,31 +632,13 @@
       - Level Order Traversal
       - FIFO
 
-- front: 'Depth First Traversal (Tree: Preorder, Inorder, Postorder)'
+- front: 'Depth First Traversal (Tree: Preorder)'
   back: |
-    class TreeNode:
-        def __init__(self, val):
-            self.val = val
-            self.left = None
-            self.right = None
-
     def dfs_preorder(root):
         if root:
             print(root.val)
             dfs_preorder(root.left)
             dfs_preorder(root.right)
-
-    def dfs_inorder(root):
-        if root:
-            dfs_inorder(root.left)
-            print(root.val)
-            dfs_inorder(root.right)
-
-    def dfs_postorder(root):
-        if root:
-            dfs_postorder(root.left)
-            dfs_postorder(root.right)
-            print(root.val)
   description: |
     Time Complexity: O(n), where n is the number of nodes.
     Space Complexity: O(h), where h is the height of the tree (due to recursion stack).
@@ -683,22 +652,21 @@
 - front: 'Floyd-Warshall'
   back: |
     def floyd_warshall(graph):
-        dist = {i: {j: float('inf') for j in graph} for i in graph}
+        dist = {ov: {dv: float('inf') for dv in graph} for ov in graph}
         
         # Distance from a vertex to itself is 0
         for vertex in graph:
             dist[vertex][vertex] = 0
             
-        for u in graph:
-            for v, weight in graph[u].items():
-                dist[u][v] = weight
+        for ov, neighbors in graph.items():
+            for dv, weight in neighbors.items():
+              shortest_paths[ov][dv] = weight
 
-        for k in graph:
-            for i in graph:
-                for j in graph:
-                    if dist[i][j] > dist[i][k] + dist[k][j]:
-                        dist[i][j] = dist[i][k] + dist[k][j]
-
+        for mv in graph:
+            for ov in graph:
+                for dv in graph:
+                    if dist[ov][dv] > dist[ov][mv] + dist[mv][dv]:
+                        dist[ov][dv] = dist[ov][mv] + dist[mv][dv]
         return dist
   description: |
     Time Complexity: O(V^3), where V is the number of vertices in the graph.
