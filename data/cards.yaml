@@ -238,7 +238,7 @@
       - Pointer Manipulation
       - Linked List
 
-- front: 'Singly-Linked List: Add at index'
+- front: 'Singly-Linked List: Insert at index'
   back: |
     def add_at_index(head, index, val) -> ListNode:
         if index < 0:
@@ -551,8 +551,8 @@
                 in_degree[neighbor] -= 1
                 if in_degree[neighbor] == 0:
                     que.append(neighbor)
-
-        return result if len(result) == len(graph) else []  # Return empty if cycle exists
+        # Return empty if cycle exists
+        return result if len(result) == len(graph) else []
   description: |
     Time Complexity: O(V + E), where V is the number of vertices and E is the number of edges.
     Space Complexity: O(V), space for storing in-degree and the queue.
@@ -632,7 +632,7 @@
       - Level Order Traversal
       - FIFO
 
-- front: 'Depth First Traversal (Tree: Preorder)'
+- front: 'Depth First Traversal: Recursive, Tree, Preorder'
   back: |
     def dfs_preorder(root):
         if root:
@@ -648,6 +648,7 @@
     Paradigms:
       - Tree Traversal
       - Recursion
+      - LIFO
 
 - front: 'Floyd-Warshall'
   back: |
