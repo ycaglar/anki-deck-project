@@ -40,10 +40,10 @@
       <input type="text" class="space-complexity" disabled>
     </div>
     <div class="input">
-      <input type="text" class="time-complexity" disabled>
+      <input type="text" class="time-complexity-solution" disabled>
     </div>
     <div class="input">
-      <input type="text" class="space-complexity" disabled>
+      <input type="text" class="space-complexity-solution" disabled>
     </div>
   </div>
 
@@ -59,6 +59,9 @@
   </div>
 
   <script>
+    document.querySelector('.time-complexity-solution').value = `Time Complexity: ` + `{{ time-complexity }}`;
+    document.querySelector('.space-complexity-solution').value = `Space Complexity: ` + `{{ space-complexity }}`;
+
     // Decode HTML entities
     function decodeHTMLEntities(text) {
       let txt = document.createElement('textarea');
@@ -145,8 +148,8 @@
             container.getBoundingClientRect().top -
             labelHeight;
           console.log(labelHeight);
-          userCodeEditor.setSize('100%', availableHeight);
-          correctCodeEditor.setSize('100%', availableHeight);
+          userCodeEditor.setSize('100%', availableHeight * 0.96);
+          correctCodeEditor.setSize('100%', availableHeight * 0.96);
         }
 
         resizeEditor();
