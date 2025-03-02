@@ -3,6 +3,7 @@ import os
 
 import genanki
 import yaml
+import re
 
 # Define paths
 PROJECT_ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -32,8 +33,10 @@ my_model = genanki.Model(
     model_id,
     "Custom Model",
     fields=[
-        {"name": "Front"},
-        {"name": "Back"},
+        {"name": "front"},
+        {"name": "back"},
+        {'name': 'time-complexity'},
+        {'name': 'space-complexity'}
     ],
     templates=[
         {
@@ -60,9 +63,19 @@ for card in cards:
     front_text = html.escape(card["front"])
     back_text = html.escape(card["back"])
 
+    time_complexity = card['time-complexity']
+    space_complexity = card['space-complexity']
+
+    big_o_pattern = r'O\([^\)]*\)'
+    time_complexity = re.search(big_o_pattern, time_complexity).group(0)
+    space_complexity = re.search(big_o_pattern, space_complexity).group(0)
+
     note = genanki.Note(
         model=my_model,
-        fields=[front_text, back_text],
+        fields=[front_text, 
+                back_text, 
+                time_complexity,
+                space_complexity],
     )
     my_deck.add_note(note)
 
