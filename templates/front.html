@@ -43,6 +43,19 @@
   </div>
 
   <script>
+    var timeComplexityVal = '';
+    var spaceComplexityVal = '';
+
+    document.querySelector('.time-complexity').addEventListener('input', (e) => {
+      timeComplexityVal = e.target.value;
+      sessionStorage.setItem('timeComplexityVal', timeComplexityVal);
+    });
+
+    document.querySelector('.space-complexity').addEventListener('input', (e) => {
+      spaceComplexityVal = e.target.value;
+      sessionStorage.setItem('spaceComplexityVal', spaceComplexityVal);
+    });
+
     var isAnkiPc21 = typeof pycmd !== 'undefined';
     var typedAnswer = '';
 

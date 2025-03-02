@@ -59,6 +59,9 @@
   </div>
 
   <script>
+    document.querySelector('.time-complexity').value = `Time Complexity: ` + timeComplexityVal;
+    document.querySelector('.space-complexity').value = `Space Complexity: ` + spaceComplexityVal;
+
     document.querySelector('.time-complexity-solution').value = `Time Complexity: ` + `{{ time-complexity }}`;
     document.querySelector('.space-complexity-solution').value = `Space Complexity: ` + `{{ space-complexity }}`;
 
@@ -97,13 +100,14 @@
       }
 
       // Compare the user's answer with the correct answer
-      if (normalizeCode(userAnswer) === normalizeCode(correctAnswer)) {
+      if (normalizeCode(userAnswer) === normalizeCode(correctAnswer) && timeComplexityVal == `{{ time-complexity }}` && spaceComplexityVal == `{{ space-complexity }}`) {
         document.getElementById('result-message').textContent =
           'Correct answer!';
         document.getElementById('result-message').style.color = 'green';
 
         // Hide the split view for correct answers
         document.getElementById('split-view').style.display = 'none';
+        document.querySelector('.input-container').style.display = 'none';
       } else {
         document.getElementById('result-message').textContent =
           'Answer is incorrect.';
@@ -139,6 +143,22 @@
         // Set values in the editors
         userCodeEditor.setValue(userAnswer);
         correctCodeEditor.setValue(correctAnswer);
+
+        if (normalizeCode(userAnswer) !== normalizeCode(correctAnswer)) {
+          // Get the CodeMirror wrapper element (the parent of the textarea)
+          let userCodeWrapper = userCodeEditor.getWrapperElement();
+          // Apply the border to the wrapper
+          userCodeWrapper.style.border = '1px solid #FF6347';
+        }
+
+        if (timeComplexityVal != `{{ time-complexity }}`) {
+          document.querySelector('.time-complexity').style.outline = '1px solid #FF6347';
+        }
+
+        if (spaceComplexityVal != `{{ space-complexity }}`) {
+          document.querySelector('.space-complexity').style.outline = '1px solid #FF6347';
+        }
+
         function resizeEditor() {
           const container = document.querySelector('.user-code-container');
           const label = document.querySelector('.user-code-container > h4');
