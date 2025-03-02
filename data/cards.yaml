@@ -14,15 +14,9 @@
                 return m
         
         return -1
-  time-complexity:
-  space-complexity:
+  time-complexity: O(log n)
+  space-complexity: O(1)
   description: |
-    Time Complexity: O(log n)
-    Space Complexity: O(1)
-    Edge Cases:
-      - Empty list: binary_search([], 3) should return -1.
-      - Single element list: binary_search([5], 5) should return 0.
-      - No match: binary_search([1, 2, 3], 4) should return -1.
     Paradigms:
       - Divide and Conquer
 
@@ -42,14 +36,9 @@
             for letter in word:
                 ptr = ptr.children.setdefault(letter, TrieNode())
             ptr.final_node = True
-  time-complexity:
-  space-complexity:
+  time-complexity: O(n), where n is the length of the word.
+  space-complexity: O(n) for a single word, where n is the word's length.
   description: |
-    Time Complexity: 
-      - insert: O(n), where n is the length of the word.
-    Space Complexity: O(n) for a single word, where n is the word's length.
-    Edge Cases:
-      - Insert an empty string: trie.insert('') should work.
     Paradigms:
       - Tree-Based Search
       - Prefix Tree
@@ -73,14 +62,9 @@
                     return False
                 ptr = ptr.children[letter]
             return ptr.final_node
-  time-complexity:
-  space-complexity:
+  time-complexity: O(n), where n is the length of the word.
+  space-complexity: O(n) for a single word, where n is the word's length.
   description: |
-    Time Complexity: 
-      - search: O(n), where n is the length of the word.
-    Space Complexity: O(n) for a single word, where n is the word's length.
-    Edge Cases:
-      - Search for a word that does not exist: trie.search('word') should return False.
     Paradigms:
       - Tree-Based Search
       - Prefix Tree
@@ -104,13 +88,9 @@
                     return False
                 ptr = ptr.children[letter]
             return True
-  time-complexity:
-  space-complexity:
+  time-complexity: O(n), where n is the length of the prefix.
+  space-complexity: O(n) for a single word, where n is the word's length.
   description: |
-    Time Complexity: 
-      - search_prefix: O(n), where n is the length of the prefix.
-    Space Complexity: O(n) for a single word, where n is the word's length.
-    Edge Cases:
     Paradigms:
       - Tree-Based Search
       - Prefix Tree
@@ -144,13 +124,9 @@
                 return False
             
             _delete(self.root, word, 0)
-  time-complexity:
-  space-complexity:
+  time-complexity: O(n), where n is the length of the word.
+  space-complexity: O(n) for a single word, where n is the word's length.
   description: |
-    Time Complexity: 
-      - delete: O(n), where n is the length of the word.
-    Space Complexity: O(n) for a single word, where n is the word's length.
-    Edge Cases:
     Paradigms:
       - Tree-Based Search
       - Prefix Tree
@@ -175,14 +151,9 @@
             return words
 
         return dfs(ptr, prefix)
-  time-complexity:
-  space-complexity:
+  time-complexity: O(m), where m is the number of words starting with the
+  space-complexity: O(n) for a single word, where n is the word's length.
   description: |
-    Time Complexity: 
-      - autocomplete: O(m), where m is the number of words starting with the prefix.
-    Space Complexity: O(n) for a single word, where n is the word's length.
-    Edge Cases:
-      - Autocomplete with no matches: trie.autocomplete('xyz') should return [].
     Paradigms:
       - Tree-Based Search
       - Prefix Tree
@@ -196,13 +167,9 @@
           return new_node
         new_node.next = head
         return new_node
-  time-complexity:
-  space-complexity:
+  time-complexity: O(1), constant time.
+  space-complexity: O(1).
   description: |
-    Time Complexity:
-      - insert_at_head: O(1), constant time.
-    Space Complexity: O(1).
-    Edge Cases:
     Paradigms:
       - Linear Data Structures
       - Pointer Manipulation
@@ -219,13 +186,9 @@
             ptr = ptr.next
         ptr.next = new_node
         return head
-  time-complexity:
-  space-complexity:
+  time-complexity: O(n), where n is the number of nodes.
+  space-complexity: O(1).
   description: |
-    Time Complexity:
-      - insert_at_tail: O(n), where n is the number of nodes.
-    Space Complexity: O(1).
-    Edge Cases:
     Paradigms:
       - Linear Data Structures
       - Pointer Manipulation
@@ -243,14 +206,9 @@
                 break
             ptr = ptr.next
         return head
-  time-complexity:
-  space-complexity:
+  time-complexity: O(n), where n is the number of nodes.
+  space-complexity: O(1).
   description: |
-    Time Complexity:
-      - delete_node: O(n), where n is the number of nodes.
-    Space Complexity: O(1).
-    Edge Cases:
-      - Deleting from an empty list: delete_node(None, 1) should return None.
     Paradigms:
       - Linear Data Structures
       - Pointer Manipulation
@@ -274,13 +232,9 @@
             new_node.next = ptr.next
             ptr.next = new_node
         return head
-  time-complexity:
-  space-complexity:
+  time-complexity: O(n), where n is the number of nodes.
+  space-complexity: O(1).
   description: |
-    Time Complexity:
-      - insert_at_index: O(n), where n is the number of nodes.
-    Space Complexity: O(1).
-    Edge Cases:
     Paradigms:
       - Linear Data Structures
       - Pointer Manipulation
@@ -301,13 +255,9 @@
         if ptr and ptr.next:
             ptr.next = ptr.next.next
         return head
-  time-complexity:
-  space-complexity:
+  time-complexity: O(n), where n is the number of nodes.
+  space-complexity: O(1).
   description: |
-    Time Complexity:
-      - delete_at_index: O(n), where n is the number of nodes.
-    Space Complexity: O(1).
-    Edge Cases:
     Paradigms:
       - Linear Data Structures
       - Pointer Manipulation
@@ -328,14 +278,9 @@
             ptr = ptr.next
         ptr.next = l1 if l1 else l2
         return dummy.next
-  time-complexity:
-  space-complexity:
+  time-complexity: O(n + m), where n and m are the lengths of the two lists.
+  space-complexity: O(1) for all operations except reverse_list.
   description: |
-    Time Complexity:
-      - merge_sorted_lists: O(n + m), where n and m are the lengths of the two lists.
-    Space Complexity: O(1) for all operations except reverse_list.
-    Edge Cases:
-      - Merging two empty lists: merge_sorted_lists(None, None) should return None.
     Paradigms:
       - Linear Data Structures
       - Pointer Manipulation
@@ -355,13 +300,9 @@
                 m = r
             
             return l
-  time-complexity:
-  space-complexity:
+  time-complexity: O(n), where n is the number of nodes.
+  space-complexity: O(1).
   description: |
-    Time Complexity:
-      - reverse_list: O(n), where n is the number of nodes.
-    Space Complexity: O(1).
-    Edge Cases:
     Paradigms:
       - Linear Data Structures
       - Pointer Manipulation
@@ -379,13 +320,9 @@
                 if sptr == fptr:
                     return True
             return False
-  time-complexity:
-  space-complexity:
+  time-complexity: O(n), where n is the number of nodes.
+  space-complexity: O(1).
   description: |
-    Time Complexity:
-      - detect_cycle: O(n), where n is the number of nodes.
-    Space Complexity: O(1).
-    Edge Cases:
     Paradigms:
       - Linear Data Structures
       - Pointer Manipulation
@@ -405,17 +342,12 @@
                 print(vertex)
                 que.extend(graph.get(vertex, []))
                 visited.add(vertex)
-  time-complexity:
-  space-complexity:
+  time-complexity: O(V + E), where V is the number of vertices and E is the number of edges.
+  space-complexity: O(V), space for visited nodes and the queue.
   description: |
-    Time Complexity: O(V + E), where V is the number of vertices and E is the number of edges.
-    Space Complexity: O(V), space for visited nodes and the queue.
     Use Cases:
       - Find shortest path in unweighted graphs.
       - Find all reachable nodes from a source node.
-    Edge Cases:
-      - Empty graph: bfs_graph({}, 'A') should return nothing.
-      - Graph with disconnected components: bfs_graph({'A': ['B'], 'B': ['A'], 'C': []}, 'A') should print A, B.
     Paradigms:
       - Graph Traversal
       - Queue-Based Search
@@ -433,17 +365,12 @@
                 print(vertex)
                 visited.add(vertex)
                 stack.extend(graph.get(vertex, []))
-  time-complexity:
-  space-complexity:
+  time-complexity: O(V + E), where V is the number of vertices and E is the number of edges.
+  space-complexity: O(V), space for visited nodes and the stack.
   description: |
-    Time Complexity: O(V + E), where V is the number of vertices and E is the number of edges.
-    Space Complexity: O(V), space for visited nodes and the stack.
     Use Cases:
       - Find connected components.
       - Traversal for exploring all nodes.
-    Edge Cases:
-      - Empty graph: dfs({}, 'A') should return nothing.
-      - Graph with no edges: dfs({'A': []}, 'A') should only print A.
     Paradigms:
       - Graph Traversal
       - Stack-Based Search
@@ -460,15 +387,11 @@
         for neighbor in graph.get(start_vertex, []):
             if neighbor not in visited:
                 dfs(graph, neighbor, visited)
-  time-complexity:
-  space-complexity:
+  time-complexity: O(V + E), where V is the number of vertices and E is the number of edges.
+  space-complexity: O(V), due to the recursion stack.
   description: |
-    Time Complexity: O(V + E), where V is the number of vertices and E is the number of edges.
-    Space Complexity: O(V), due to the recursion stack.
     Use Cases: 
       - Explore all nodes in a graph recursively.
-    Edge Cases:
-      - Empty graph: dfs({}, 'A') should return nothing.
     Paradigms:
       - Graph traversal
       - Recursion
@@ -493,16 +416,11 @@
                     heapq.heappush(heap, (distance, neighbor))
 
         return distances
-  time-complexity:
-  space-complexity:
+  time-complexity: O((V + E) log V), due to heap operations.
+  space-complexity: O(V), space for storing distances.
   description: |
-    Time Complexity: O((V + E) log V), due to heap operations.
-    Space Complexity: O(V), space for storing distances.
     Use Cases:
       - Find the shortest path in weighted graphs.
-    Edge Cases:
-      - Graph with no path: dijkstra({'A': [('B', 1)], 'B': [('A', 1)]}, 'A') should return {'A': 0, 'B': 1}.
-      - Graph with negative weights: doesn't work correctly for graphs with negative weights. Use Bellman-Ford instead.
     Paradigms:
       - Greedy Algorithm
 
@@ -540,15 +458,11 @@
                 mst.append((u, v, weight))
 
         return mst
-  time-complexity:
-  space-complexity:
+  time-complexity: O(E log E), where E is the number of edges.
+  space-complexity: O(V), space for the Union-Find structure.
   description: |
-    Time Complexity: O(E log E), where E is the number of edges.
-    Space Complexity: O(V), space for the Union-Find structure.
     Use Cases:
       - Finding Minimum Spanning Tree in a graph.
-    Edge Cases:
-      - Disconnected graph: kruskal([...], 5) will handle with appropriate edges.
     Paradigms:
       - Greedy Algorithm
 
@@ -559,14 +473,9 @@
     def heap_sort(arr):
         heapq.heapify(arr)
         return [heapq.heappop(arr) for _ in range(len(arr))]
-  time-complexity:
-  space-complexity:
+  time-complexity: O(n log n), where n is the number of elements.
+  space-complexity: O(n), due to the heap structure.
   description: |
-    Time Complexity: O(n log n), where n is the number of elements.
-    Space Complexity: O(n), due to the heap structure.
-    Edge Cases:
-     - Empty list: heap_sort([]) should return [].
-     - Already sorted list: heap_sort([1, 2, 3]) should return [1, 2, 3].
     Paradigms:
       - Heap-based Sorting
       - Selection-based Sorting
@@ -593,14 +502,9 @@
                     que.append(neighbor)
         # Return empty if cycle exists
         return result if len(result) == len(graph) else []
-  time-complexity:
-  space-complexity:
+  time-complexity: O(V + E), where V is the number of vertices and E is the number of edges.
+  space-complexity: O(V), space for storing in-degree and the queue.
   description: |
-    Time Complexity: O(V + E), where V is the number of vertices and E is the number of edges.
-    Space Complexity: O(V), space for storing in-degree and the queue.
-    Edge Cases:
-      - Graph with cycles: topological_sort({'A': ['B'], 'B': ['A']}) should return an empty list [].
-      - Graph with no edges: topological_sort({'A': [], 'B': []}) should return ['A', 'B'].
     Paradigms:
       - Graph Traversal
       - FIFO
@@ -614,14 +518,9 @@
         left = merge_sort(arr[:mid])
         right = merge_sort(arr[mid:])
         return sorted(left + right)
-  time-complexity:
-  space-complexity:
+  time-complexity: O(n log n), where n is the number of elements.
+  space-complexity: O(n), due to the space for the sorted array.
   description: |
-    Time Complexity: O(n log n), where n is the number of elements.
-    Space Complexity: O(n), due to the space for the sorted array.
-    Edge Cases:
-      - Empty list: merge_sort([]) should return [].
-      - List with one element: merge_sort([1]) should return [1].
     Paradigms:
       - Divide and Conquer
       - Sorting
@@ -639,14 +538,9 @@
         middle = [x for x in arr if x == pivot]
         right = [x for x in arr if x > pivot]
         return quicksort(left) + middle + quicksort(right)
-  time-complexity:
-  space-complexity:
+  time-complexity: O(n log n) on average, O(n^2) in the worst case.
+  space-complexity: O(log n) due to recursion stack.
   description: |
-    Time Complexity: O(n log n) on average, O(n^2) in the worst case.
-    Space Complexity: O(log n) due to recursion stack.
-    Edge Cases:
-      - Empty list: quicksort([]) should return [].
-      - List with identical elements: quicksort([1, 1, 1]) should return [1, 1, 1].
     Paradigms:
       - Divide and Conquer
       - Randomization
@@ -667,14 +561,9 @@
                 que.append(node.left)
             if node.right:
                 que.append(node.right)
-  time-complexity:
-  space-complexity:
+  time-complexity: O(n), where n is the number of nodes.
+  space-complexity: O(n), space for the queue.
   description: |
-    Time Complexity: O(n), where n is the number of nodes.
-    Space Complexity: O(n), space for the queue.
-    Edge Cases:
-      - Empty tree: bfs_tree(None) should return nothing.
-      - Tree with one node: bfs_tree(TreeNode(1)) should print 1.
     Paradigms:
       - Tree Traversal
       - Level Order Traversal
@@ -687,14 +576,9 @@
             print(root.val)
             dfs_preorder(root.left)
             dfs_preorder(root.right)
-  time-complexity:
-  space-complexity:
+  time-complexity: O(n), where n is the number of nodes.
+  space-complexity: O(h), where h is the height of the tree (due to recursion stack).
   description: |
-    Time Complexity: O(n), where n is the number of nodes.
-    Space Complexity: O(h), where h is the height of the tree (due to recursion stack).
-    Edge Cases:
-      - Empty tree: dfs_preorder(None), dfs_inorder(None), and dfs_postorder(None) should print nothing.
-      - Tree with one node: dfs_preorder(TreeNode(1)), dfs_inorder(TreeNode(1)), and dfs_postorder(TreeNode(1)) should print 1.
     Paradigms:
       - Tree Traversal
       - Recursion
@@ -719,17 +603,12 @@
                     if dist[ov][dv] > dist[ov][mv] + dist[mv][dv]:
                         dist[ov][dv] = dist[ov][mv] + dist[mv][dv]
         return dist
-  time-complexity:
-  space-complexity:
+  time-complexity: O(V^3), where V is the number of vertices in the graph.
+  space-complexity: O(V^2), due to the 2D matrix for distances.
   description: |
-    Time Complexity: O(V^3), where V is the number of vertices in the graph.
-    Space Complexity: O(V^2), due to the 2D matrix for distances.
     Use Cases:
       - Find the shortest path between all pairs of vertices in a graph.
       - Can be used for detecting negative cycles.
-    Edge Cases:
-      - Graph with no edges: The result will show infinite distances between all non-connected pairs.
-      - Graph with negative weights: The algorithm handles negative weights but not negative weight cycles.
     Paradigms:
       - Dynamic Programming
 
@@ -752,18 +631,12 @@
                     raise ValueError('Graph contains a negative weight cycle')
 
         return distances
-  time-complexity:
-  space-complexity:
+  time-complexity: O(V * E), where V is the number of vertices and E is the number of edges.
+  space-complexity: O(V), for storing the distance of each vertex.
   description: |
-    Time Complexity: O(V * E), where V is the number of vertices and E is the number of edges.
-    Space Complexity: O(V), for storing the distance of each vertex.
     Use Cases:
       - Find the shortest path from a single source to all vertices in a graph.
       - Can handle graphs with negative edge weights.
       - Detect negative weight cycles in a graph.
-    Edge Cases:
-      - Graph with no edges: The result will be distances as 'inf' for all vertices except the source.
-      - Graph with negative weight cycles: Will raise an exception.
-      - It is slower than Dijkstra’s and should be used specifically when negative edge weights are involved.
     Paradigms:
       - Dynamic Programming
