@@ -91,14 +91,14 @@ select {
     font-size: 14px;
 }
 
-.dropdown-container {
+.dropdown-container, .input-container {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   column-gap: 10px;
 }
 
-.dropdown {
+.dropdown, .input {
   display: flex;
   flex-direction: column;
   flex: 1 1 10px;
@@ -123,11 +123,18 @@ select {
 
 /* Back: End */
 
-/* Test Features: Start */
 body {
   display: grid;
   grid-auto-flow: row;
   grid-template-rows: auto auto 1fr;
   grid-template-columns: 1fr;
 }
-/* Test Features: End */
+
+p.question {
+  margin-bottom: 10px;
+}
+
+.time-complexity, .space-complexity {
+  /* outline: 1px solid black; */
+  /* border: none; */
+}
