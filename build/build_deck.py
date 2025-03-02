@@ -66,7 +66,7 @@ for card in cards:
     time_complexity = card['time-complexity']
     space_complexity = card['space-complexity']
 
-    big_o_pattern = r'O\([^\)]*\)'
+    big_o_pattern = r'O\((?:[^()]+|\([^()]*\))+\)'
     time_complexity = re.search(big_o_pattern, time_complexity).group(0)
     space_complexity = re.search(big_o_pattern, space_complexity).group(0)
 
