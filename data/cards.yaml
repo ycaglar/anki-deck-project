@@ -22,20 +22,11 @@
 
 - front: 'Trie: Insert Word'
   back: |
-    class TrieNode:
-        def __init__(self):
-            self.children = {}
-            self.final_node = False
-
-    class Trie:
-        def __init__(self):
-            self.root = TrieNode()
-
-        def insert(self, word):
-            ptr = self.root
-            for letter in word:
-                ptr = ptr.children.setdefault(letter, TrieNode())
-            ptr.final_node = True
+    def insert_word(word):
+        ptr = self.root
+        for letter in word:
+            ptr = ptr.children.setdefault(letter, TrieNode())
+        ptr.final_node = True
   time-complexity: O(n), where n is the length of the word.
   space-complexity: O(n) for a single word, where n is the word's length.
   description: |
@@ -46,24 +37,15 @@
 
 - front: 'Trie: Search Word'
   back: |
-    class TrieNode:
-        def __init__(self):
-            self.children = {}
-            self.final_node = False
-
-    class Trie:
-        def __init__(self):
-            self.root = TrieNode()
-
-        def search(self, word) -> bool:
-            ptr = self.root
-            for letter in word:
-                if letter not in ptr.children:
-                    return False
-                ptr = ptr.children[letter]
-            return ptr.final_node
+    def search_word(word) -> bool:
+        ptr = self.root
+        for letter in word:
+            if letter not in ptr.children:
+                return False
+            ptr = ptr.children[letter]
+        return ptr.final_node
   time-complexity: O(n), where n is the length of the word.
-  space-complexity: O(n) for a single word, where n is the word's length.
+  space-complexity: O(1) for a single word, where n is the word's length.
   description: |
     Paradigms:
       - Tree-Based Search
@@ -72,24 +54,15 @@
 
 - front: 'Trie: Search Prefix'
   back: |
-    class TrieNode:
-        def __init__(self):
-            self.children = {}
-            self.final_node = False
-
-    class Trie:
-        def __init__(self):
-            self.root = TrieNode()
-
-        def search_prefix(self, prefix) -> bool:
-            ptr = self.root
-            for letter in prefix:
-                if letter not in ptr.children:
-                    return False
-                ptr = ptr.children[letter]
-            return True
+    def search_prefix(prefix) -> bool:
+        ptr = self.root
+        for letter in prefix:
+            if letter not in ptr.children:
+                return False
+            ptr = ptr.children[letter]
+        return True
   time-complexity: O(n), where n is the length of the prefix.
-  space-complexity: O(n) for a single word, where n is the word's length.
+  space-complexity: O(1) for a single word, where n is the word's length.
   description: |
     Paradigms:
       - Tree-Based Search
@@ -98,34 +71,25 @@
 
 - front: 'Trie: Delete Word'
   back: |
-    class TrieNode:
-        def __init__(self):
-            self.children = {}
-            self.final_node = False
-
-    class Trie:
-        def __init__(self):
-            self.root = TrieNode()
-
-        def delete(self, word):
-            def _delete(ptr, word, index) -> bool:
-                if index == len(word):
-                    if not ptr.final_node:
-                        return False
-                    ptr.final_node = False
-                    return len(ptr.children) == 0  # If no children, delete.
-                char = word[index]
-                if char not in ptr.children:
+    def delete_word(word):
+        def _delete(ptr, word, index) -> bool:
+            if index == len(word):
+                if not ptr.final_node:
                     return False
-                can_delete_child = _delete(ptr.children[char], word, index + 1)
-                if can_delete_child:
-                    del ptr.children[char]
-                    return len(ptr.children) == 0 and not ptr.final_node
+                ptr.final_node = False
+                return len(ptr.children) == 0  # If no children, delete.
+            letter = word[index]
+            if letter not in ptr.children:
                 return False
-            
-            _delete(self.root, word, 0)
+            deletable = _delete(ptr.children[letter], word, index + 1)
+            if deletable:
+                del ptr.children[letter]
+                return len(ptr.children) == 0 and not ptr.final_node
+            return False
+        
+        _delete(self.root, word, 0)
   time-complexity: O(n), where n is the length of the word.
-  space-complexity: O(n) for a single word, where n is the word's length.
+  space-complexity: O(h), where h is the height of the tree (due to recursion stack)
   description: |
     Paradigms:
       - Tree-Based Search
@@ -143,12 +107,12 @@
 
         # Perform DFS to collect all words from this ptr onward
         def dfs(ptr, current_word):
-            words = []
+            matches = []
             if ptr.final_node:
-                words.append(current_word)
+                matches.append(current_word)
             for letter, child_node in ptr.children.items():
-                words.extend(dfs(child_node, current_word + letter))
-            return words
+                matches.extend(dfs(child_node, current_word + letter))
+            return matches
 
         return dfs(ptr, prefix)
   time-complexity: O(m), where m is the number of words starting with the
@@ -164,7 +128,7 @@
     def insert_at_head(head, val) -> ListNode:
         new_node = ListNode(val)
         if not head:
-          return new_node
+            return new_node
         new_node.next = head
         return new_node
   time-complexity: O(1), constant time.
@@ -244,7 +208,7 @@
   back: |
     def delete_at_index(head, index) -> ListNode:
         if not head or index < 0:
-          return head
+            return head
         if index == 0:
             return head.next
         ptr = head
@@ -265,7 +229,7 @@
 
 - front: 'Singly-Linked List: Merge sorted list'
   back: |
-    def merge_sorted_lists(l1, l2):
+    def merge_sorted_lists(l1, l2) -> ListNode:
         dummy = ListNode()
         ptr = dummy
         while l1 and l2:
@@ -289,17 +253,17 @@
 - front: 'Singly-Linked List: Reverse List'
   back: |
     def reverse_list(head) -> ListNode:
-            l = None 
-            m = head
-            r = None
+        l = None
+        m = head
+        r = None
 
-            while m:
-                r = m.next
-                m.next = l
-                l = m
-                m = r
-            
-            return l
+        while m:
+            r = m.next
+            m.next = l
+            l = m
+            m = r
+        
+        return l
   time-complexity: O(n), where n is the number of nodes.
   space-complexity: O(1).
   description: |
@@ -311,15 +275,15 @@
 - front: 'Singly-Linked List: Detect cycle'
   back: |
     def detect_cycle(head) -> bool:
-            sptr = head
-            fptr = head
-            
-            while fptr and fptr.next:
-                sptr = sptr.next
-                fptr = fptr.next.next
-                if sptr == fptr:
-                    return True
-            return False
+        sptr = head
+        fptr = head
+        
+        while fptr and fptr.next:
+            sptr = sptr.next
+            fptr = fptr.next.next
+            if sptr == fptr:
+                return True
+        return False
   time-complexity: O(n), where n is the number of nodes.
   space-complexity: O(1).
   description: |
@@ -530,16 +494,13 @@
     from random import randint
 
     def quicksort(arr):
-        if len(arr) <= 1:
-            return arr
-
         pivot = arr[randint(0, len(arr) - 1)]
         left = [x for x in arr if x < pivot]
-        middle = [x for x in arr if x == pivot]
+        mid = [x for x in arr if x == pivot]
         right = [x for x in arr if x > pivot]
         return quicksort(left) + middle + quicksort(right)
-  time-complexity: O(n log n) on average, O(n^2) in the worst case.
-  space-complexity: O(log n) due to recursion stack.
+  time-complexity: O(n^2) in the worst case.
+  space-complexity: O(n) due to recursion stack.
   description: |
     Paradigms:
       - Divide and Conquer
@@ -551,8 +512,6 @@
     from collections import deque
 
     def bfs(root):
-        if not root:
-            return
         que = deque([root])
         while que:
             node = que.popleft()
@@ -595,7 +554,7 @@
             
         for ov, neighbors in graph.items():
             for dv, weight in neighbors.items():
-              shortest_paths[ov][dv] = weight
+                dist[ov][dv] = weight
 
         for mv in graph:
             for ov in graph:
