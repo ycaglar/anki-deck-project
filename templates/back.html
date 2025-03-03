@@ -72,12 +72,22 @@
       return txt.value;
     }
 
+    // function normalizeCode(code) {
+    //   return code
+    //     .replace(/\t/g, '    ') // Replace tabs with 4 spaces
+    //     .split('\n')
+    //     .filter((line) => line.trim() !== '')
+    //     .join('\n');
+    // }
+
     function normalizeCode(code) {
       return code
         .replace(/\t/g, '    ') // Replace tabs with 4 spaces
         .split('\n')
-        .filter((line) => line.trim() !== '')
-        .join('\n');
+        .filter((line) => {
+          const trimmed = line.trim();
+          return trimmed !== '' && !trimmed.startsWith('#');
+        }).join('\n');
     }
 
     (function () {
