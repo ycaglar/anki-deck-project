@@ -106,12 +106,12 @@
             ptr = ptr.children[letter]
 
         # Perform DFS to collect all words from this ptr onward
-        def dfs(ptr, current_word):
+        def dfs(ptr, word):
             matches = []
             if ptr.final_node:
-                matches.append(current_word)
+                matches.append(word)
             for letter, child_node in ptr.children.items():
-                matches.extend(dfs(child_node, current_word + letter))
+                matches.extend(dfs(child_node, word + letter))
             return matches
 
         return dfs(ptr, prefix)
