@@ -1,6 +1,6 @@
 - front: 'Binary Search'
   back: |
-    def binary_search(arr, target):
+    def binary_search(arr, target) -> int:
         l, r = 0, len(arr) - 1
         
         while l <= r:
@@ -77,19 +77,20 @@
                 if not ptr.final_node:
                     return False
                 ptr.final_node = False
-                return len(ptr.children) == 0  # If no children, delete.
+                # If no children, delete.
+                return len(ptr.children) == 0
             letter = word[index]
             if letter not in ptr.children:
                 return False
             deletable = _delete(ptr.children[letter], word, index + 1)
             if deletable:
                 del ptr.children[letter]
-                return len(ptr.children) == 0 and not ptr.final_node
+                return not ptr.final_node and len(ptr.children) == 0
             return False
         
         _delete(self.root, word, 0)
   time-complexity: O(n), where n is the length of the word.
-  space-complexity: O(h), where h is the height of the tree (due to recursion stack)
+  space-complexity: O(n), where h is the height of the tree (due to recursion stack)
   description: |
     Paradigms:
       - Tree-Based Search
@@ -102,7 +103,8 @@
         ptr = self.root
         for letter in prefix:
             if letter not in ptr.children:
-                return []  # No words with this prefix
+                # No words with this prefix
+                return []
             ptr = ptr.children[letter]
 
         # Perform DFS to collect all words from this ptr onward
@@ -115,8 +117,8 @@
             return matches
 
         return dfs(ptr, prefix)
-  time-complexity: O(m), where m is the number of words starting with the
-  space-complexity: O(n) for a single word, where n is the word's length.
+  time-complexity: O(n), where n is the length of the prefix.
+  space-complexity: O(w), where w is the number of words in the dictionary.
   description: |
     Paradigms:
       - Tree-Based Search
@@ -181,8 +183,8 @@
 - front: 'Singly-Linked List: Insert at index'
   back: |
     def insert_at_index(head, index, val) -> ListNode:
-        if index < 0:
-            return head
+        if not head or index < 0:
+          return head
         new_node = ListNode(val)
         if index == 0:
             new_node.next = head
@@ -303,9 +305,9 @@
         while que:
             vertex = que.popleft()
             if vertex not in visited:
+                visited.add(vertex)
                 print(vertex)
                 que.extend(graph.get(vertex, []))
-                visited.add(vertex)
   time-complexity: O(V + E), where V is the number of vertices and E is the number of edges.
   space-complexity: O(V), space for visited nodes and the queue.
   description: |
@@ -326,8 +328,8 @@
         while stack:
             vertex = stack.pop()
             if vertex not in visited:
-                print(vertex)
                 visited.add(vertex)
+                print(vertex)
                 stack.extend(graph.get(vertex, []))
   time-complexity: O(V + E), where V is the number of vertices and E is the number of edges.
   space-complexity: O(V), space for visited nodes and the stack.
@@ -366,20 +368,20 @@
 
     def dijkstra(graph, start_vertex):
         heap = [(0, start_vertex)]
-        distances = {vertex: float('inf') for vertex in graph}
-        distances[start_vertex] = 0
+        dist = {vertex: float('inf') for vertex in graph}
+        dist[start_vertex] = 0
 
         while heap:
             curr_dist, vertex = heapq.heappop(heap)
-            if curr_dist > distances[vertex]:
+            if curr_dist > dist[vertex]:
                 continue
             for neighbor, weight in graph[vertex]:
                 distance = curr_dist + weight
-                if distance < distances[neighbor]:
-                    distances[neighbor] = distance
+                if distance < dist[neighbor]:
+                    dist[neighbor] = distance
                     heapq.heappush(heap, (distance, neighbor))
 
-        return distances
+        return dist
   time-complexity: O((V + E) log V), due to heap operations.
   space-complexity: O(V), space for storing distances.
   description: |
@@ -393,10 +395,12 @@
     class UnionFind:
         def __init__(self, size):
             self.parent = list(range(size))
+            # Initialize all ranks to 1
             self.rank = [1] * size
 
         def find(self, node):
             if self.parent[node] != node:
+                # Path compression
                 self.parent[node] = self.find(self.parent[node])
             return self.parent[node]
 
@@ -409,10 +413,12 @@
                     self.parent[root1] = root2
                 else:
                     self.parent[root2] = root1
+                    # Increase rank only when merging equal ranks
                     self.rank[root1] += 1
 
     def kruskal(graph, num_nodes):
-        edges = sorted(graph, key = lambda edge: edge[2])  # Sort by weight
+        # Sort edges by weight
+        edges = sorted(graph, key = lambda edge: edge[2])
         uf = UnionFind(num_nodes)
         mst = []
 
@@ -454,7 +460,8 @@
             for neighbor in graph[vertex]:
                 in_degree[neighbor] += 1
 
-        que = deque([vertex for vertex in in_degree if in_degree[vertex] == 0])
+        que = deque([vertex for vertex in in_degree 
+                    if in_degree[vertex] == 0])
         result = []
 
         while que:
@@ -491,14 +498,12 @@
 
 - front: 'Quicksort (Randomized)'
   back: |
-    from random import randint
-
     def quicksort(arr):
-        pivot = arr[randint(0, len(arr) - 1)]
+        pivot = random.choice(arr)
         left = [x for x in arr if x < pivot]
         mid = [x for x in arr if x == pivot]
         right = [x for x in arr if x > pivot]
-        return quicksort(left) + middle + quicksort(right)
+        return quicksort(left) + mid + quicksort(right)
   time-complexity: O(n^2) in the worst case.
   space-complexity: O(n) due to recursion stack.
   description: |
@@ -574,22 +579,22 @@
 - front: 'Bellman-Ford'
   back: |
     def bellman_ford(graph, start_vertex):
-        distances = {vertex: float('inf') for vertex in graph}
-        distances[start_vertex] = 0
+        dist = {vertex: float('inf') for vertex in graph}
+        dist[start_vertex] = 0
 
         for _ in range(len(graph) - 1):
-            for u in graph:
-                for v, weight in graph[u].items():
-                    if distances[u] + weight < distances[v]:
-                        distances[v] = distances[u] + weight
+            for ov, neighbor in graph.items():
+                for dv, weight in neighbor.items():
+                    if dist[ov] + weight < dist[dv]:
+                        dist[dv] = dist[ov] + weight
 
         # Detect negative cycles
-        for u in graph:
-            for v, weight in graph[u].items():
-                if distances[u] + weight < distances[v]:
-                    raise ValueError('Graph contains a negative weight cycle')
+        for ov, neighbor in graph.items():
+            for dv, weight in neighbor.items():
+                if dist[ov] + weight < dist[dv]:
+                    raise ValueError('Negative weight cycle detected')
 
-        return distances
+        return dist
   time-complexity: O(V * E), where V is the number of vertices and E is the number of edges.
   space-complexity: O(V), for storing the distance of each vertex.
   description: |
