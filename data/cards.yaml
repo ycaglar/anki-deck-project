@@ -294,7 +294,7 @@
       - Pointer Manipulation
       - Linked List
 
-- front: 'Breadth First Search (Graph)'
+- front: 'Breadth First Search on Graph'
   back: |
     from collections import deque
 
@@ -319,7 +319,7 @@
       - Queue-Based Search
       - FIFO
 
-- front: 'Depth First Search: Iterative (Graph)'
+- front: 'Depth First Search on Graph: Iterative'
   back: |
     def dfs(graph, start_vertex):
         visited = set()
@@ -342,7 +342,7 @@
       - Stack-Based Search
       - LIFO
 
-- front: 'Depth First Search: Recursive (Graph)'
+- front: 'Depth First Search on Graph: Recursive Graph'
   back: |
     def dfs(graph, start_vertex, visited = None):
         if visited is None:
@@ -450,7 +450,7 @@
       - Heap-based Sorting
       - Selection-based Sorting
 
-- front: 'Topological Sorting (Kahn’s Algorithm)'
+- front: 'Kahn’s Algorithm: Topological Sort'
   back: |
     from collections import deque
 
@@ -496,7 +496,7 @@
       - Divide and Conquer
       - Sorting
 
-- front: 'Quicksort (Randomized)'
+- front: 'Quicksort: Randomized'
   back: |
     def quicksort(arr):
         pivot = random.choice(arr)
@@ -512,7 +512,7 @@
       - Randomization
       - Sorting
 
-- front: 'Breadth First Traversal (Tree, Level Order)'
+- front: 'Breadth First Traversal on Tree: Level Order'
   back: |
     from collections import deque
 
@@ -533,7 +533,7 @@
       - Level Order Traversal
       - FIFO
 
-- front: 'Depth First Traversal: Recursive, Tree, Preorder'
+- front: 'Depth First Traversal on Tree: Recursive, Preorder'
   back: |
     def dfs_preorder(root):
         if root:
@@ -548,7 +548,7 @@
       - Recursion
       - LIFO
 
-- front: 'Floyd-Warshall'
+- front: 'Floyd-Warshall: All-Pairs Shortest Path'
   back: |
     def floyd_warshall(graph):
         dist = {ov: {dv: float('inf') for dv in graph} for ov in graph}
@@ -576,7 +576,7 @@
     Paradigms:
       - Dynamic Programming
 
-- front: 'Bellman-Ford'
+- front: 'Bellman-Ford: Single-Source Shortest Path'
   back: |
     def bellman_ford(graph, start_vertex):
         dist = {vertex: float('inf') for vertex in graph}
