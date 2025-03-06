@@ -604,3 +604,104 @@
       - Detect negative weight cycles in a graph.
     Paradigms:
       - Dynamic Programming
+
+- front: 'Island Counting: DFS, Recursive'
+  back: |
+    def count_islands(grid):
+      if not grid: return 0
+      rows, cols = len(grid), len(grid[0])
+
+      def dfs(r, c):
+          if 0 <= r < rows and 0 <= c < cols and grid[r][c] == "1":
+              grid[r][c] = "0"  # Mark visited
+              for dr, dc in [(1,0), (-1,0), (0,1), (0,-1)]:  # 4 directions
+                  dfs(r + dr, c + dc)
+
+      islands = 0
+      for r in range(rows):
+          for c in range(cols):
+              if grid[r][c] == "1":
+                  dfs(r, c)
+                  islands += 1
+      return islands
+  time-complexity: O(n*m)
+  space-complexity: O(n*m)
+  description: |
+    The algorithm iterates through the grid, and when a "1" (land) is found, it performs a depth-first search (DFS) to mark all connected land cells as visited (by changing them to "0"). This effectively counts one island and prevents recounting. The process repeats for each unvisited "1".
+    Paradigms:
+      - Graph traversal (DFS-based)
+      - Recursion
+      - Flood fill algorithm
+
+- front: 'Island Counting: BFS'
+  back: |
+    from collections import deque
+
+    def count_islands(grid):
+        if not grid:
+            return 0
+
+        rows, cols = len(grid), len(grid[0])
+        islands = 0
+
+        for r in range(rows):
+            for c in range(cols):
+                if grid[r][c] == "1":
+                    islands += 1
+                    grid[r][c] = "0"  # Mark the cell as visited.
+                    queue = deque([(r, c)])
+                    
+                    # Use BFS to visit all connected "1"s.
+                    while queue:
+                        cur_r, cur_c = queue.popleft()
+                        for dr, dc in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
+                            new_r, new_c = cur_r + dr, cur_c + dc
+                            if 0 <= new_r < rows and 0 <= new_c < cols and grid[new_r][new_c] == "1":
+                                grid[new_r][new_c] = "0"
+                                queue.append((new_r, new_c))
+        return islands
+
+  time-complexity:
+  space-complexity:
+  description: |
+
+- front: 'Maze Solving: DFS'
+  back: |
+    def solveMaze(maze, start, end):
+        rows, cols = len(maze), len(maze[0])
+        # To keep track of the current path
+        path = []
+
+        def dfs(r, c):
+            # Check if out-of-bounds or hit a wall or visited cell.
+            if not (0 <= r < rows and 0 <= c < cols) or maze[r][c] != "0":
+                return False
+
+            # Mark the cell as part of the path and visited.
+            path.append((r, c))
+            # 'v' indicates visited
+            maze[r][c] = "v"
+
+            # Check if we've reached the destination.
+            if (r, c) == end:
+                return True
+
+            # Explore all four directions.
+            for dr, dc in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
+                if dfs(r + dr, c + dc):
+                    return True
+
+            # Backtrack if no path is found from the current cell.
+            path.pop()
+            return False
+
+        if dfs(start[0], start[1]):
+            # A valid path from start to end was found.
+            return path
+        else:
+            # No path exists.
+            return None
+
+  time-complexity:
+  space-complexity:
+  description: |
