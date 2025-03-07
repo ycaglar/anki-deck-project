@@ -702,8 +702,8 @@
         
         # If no path exists, return None.
         return None
-  time-complexity:
-  space-complexity:
+  time-complexity: O(n*m)
+  space-complexity: O(n*m)
   description: |
     This BFS-based algorithm finds the shortest path in an unweighted maze. It starts at the initial cell and explores all reachable open cells ("0") level-by-level while tracking the path taken. When the destination is reached, the shortest path is returned. The maze is modified to mark visited cells (using a marker like "v") to avoid revisiting and looping.
     Paradigms:
