@@ -613,8 +613,10 @@
 
       def dfs(r, c):
           if 0 <= r < rows and 0 <= c < cols and grid[r][c] == "1":
-              grid[r][c] = "0"  # Mark visited
-              for dr, dc in [(1,0), (-1,0), (0,1), (0,-1)]:  # 4 directions
+              # Mark visited
+              grid[r][c] = "0"
+              # 4 directions
+              for dr, dc in [(1,0), (-1,0), (0,1), (0,-1)]:
                   dfs(r + dr, c + dc)
 
       islands = 0
@@ -648,7 +650,8 @@
             for c in range(cols):
                 if grid[r][c] == "1":
                     islands += 1
-                    grid[r][c] = "0"  # Mark the cell as visited.
+                    # Mark the cell as visited.
+                    grid[r][c] = "0"
                     queue = deque([(r, c)])
                     
                     # Use BFS to visit all connected "1"s.
@@ -661,47 +664,49 @@
                                 queue.append((new_r, new_c))
         return islands
 
-  time-complexity:
-  space-complexity:
+  time-complexity: O(n*m)
+  space-complexity: O(n*m)
   description: |
+    The algorithm iterates over each cell in the grid. When a land cell ("1") is encountered, it initiates a breadth-first search (BFS) to traverse all adjacent land cells, marking them as visited (by setting them to "0"). The BFS uses a queue to explore cells level-by-level, ensuring that all cells in one island are processed before moving on.
+    Paradigms:
+      - BFS
+      - Queue-based iteration
+      - Flood fill algorithm
 
-- front: 'Maze Solving: DFS'
+- front: 'Maze Solving: BFS'
   back: |
-    def solveMaze(maze, start, end):
+    from collections import deque
+
+    def solve_maze(maze, start, end):
         rows, cols = len(maze), len(maze[0])
-        # To keep track of the current path
-        path = []
-
-        def dfs(r, c):
-            # Check if out-of-bounds or hit a wall or visited cell.
-            if not (0 <= r < rows and 0 <= c < cols) or maze[r][c] != "0":
-                return False
-
-            # Mark the cell as part of the path and visited.
-            path.append((r, c))
-            # 'v' indicates visited
-            maze[r][c] = "v"
-
-            # Check if we've reached the destination.
+        # Queue stores tuples: (current position, path taken so far)
+        queue = deque([(start, [start])])
+        
+        # Mark the start cell as visited to prevent revisiting.
+        maze[start[0]][start[1]] = "v"
+        
+        while queue:
+            (r, c), path = queue.popleft()
+            
+            # If we reach the end, return the path.
             if (r, c) == end:
-                return True
-
-            # Explore all four directions.
+                return path
+            
+            # Explore neighbors in all four directions.
             for dr, dc in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
-                if dfs(r + dr, c + dc):
-                    return True
-
-            # Backtrack if no path is found from the current cell.
-            path.pop()
-            return False
-
-        if dfs(start[0], start[1]):
-            # A valid path from start to end was found.
-            return path
-        else:
-            # No path exists.
-            return None
-
+                nr, nc = r + dr, c + dc
+                # Check if the new cell is within bounds and is an open path.
+                if 0 <= nr < rows and 0 <= nc < cols and maze[nr][nc] == "0":
+                    maze[nr][nc] = "v"  # Mark as visited.
+                    queue.append(((nr, nc), path + [(nr, nc)]))
+        
+        # If no path exists, return None.
+        return None
   time-complexity:
   space-complexity:
   description: |
+    This BFS-based algorithm finds the shortest path in an unweighted maze. It starts at the initial cell and explores all reachable open cells ("0") level-by-level while tracking the path taken. When the destination is reached, the shortest path is returned. The maze is modified to mark visited cells (using a marker like "v") to avoid revisiting and looping.
+    Paradigms:
+      - BFS
+      - Shortest path finding in unweighted graphs
+      - Queue-based level-order search
