@@ -163,6 +163,8 @@
 - front: 'Singly-Linked List: Delete Node'
   back: |
     def delete_node(head, val) -> ListNode:
+        if not head:
+            return head
         if head.val == val:
             return head.next
         ptr = head
