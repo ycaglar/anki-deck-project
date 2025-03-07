@@ -99,7 +99,7 @@
         // Trim trailing spaces
         .map((line) => line.replace(/\s+$/, ""))
         // Remove empty/comment lines
-        .filter((line) => line !== "" && !line.startsWith("#"))
+        .filter((line) => line !== "" && !line.trim().startsWith("#"))
         .join("\n")
         .trimEnd();
     }
