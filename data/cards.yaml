@@ -294,7 +294,7 @@
       - Pointer Manipulation
       - Linked List
 
-- front: 'Breadth First Search (Graph)'
+- front: 'Breadth First Search on Graph'
   back: |
     from collections import deque
 
@@ -319,7 +319,7 @@
       - Queue-Based Search
       - FIFO
 
-- front: 'Depth First Search: Iterative (Graph)'
+- front: 'Depth First Search on Graph: Iterative'
   back: |
     def dfs(graph, start_vertex):
         visited = set()
@@ -342,7 +342,7 @@
       - Stack-Based Search
       - LIFO
 
-- front: 'Depth First Search: Recursive (Graph)'
+- front: 'Depth First Search on Graph: Recursive Graph'
   back: |
     def dfs(graph, start_vertex, visited = None):
         if visited is None:
@@ -450,7 +450,7 @@
       - Heap-based Sorting
       - Selection-based Sorting
 
-- front: 'Topological Sorting (Kahn’s Algorithm)'
+- front: 'Kahn’s Algorithm: Topological Sort'
   back: |
     from collections import deque
 
@@ -496,7 +496,7 @@
       - Divide and Conquer
       - Sorting
 
-- front: 'Quicksort (Randomized)'
+- front: 'Quicksort: Randomized'
   back: |
     def quicksort(arr):
         pivot = random.choice(arr)
@@ -512,7 +512,7 @@
       - Randomization
       - Sorting
 
-- front: 'Breadth First Traversal (Tree, Level Order)'
+- front: 'Breadth First Traversal on Tree: Level Order'
   back: |
     from collections import deque
 
@@ -533,7 +533,7 @@
       - Level Order Traversal
       - FIFO
 
-- front: 'Depth First Traversal: Recursive, Tree, Preorder'
+- front: 'Depth First Traversal on Tree: Recursive, Preorder'
   back: |
     def dfs_preorder(root):
         if root:
@@ -548,7 +548,7 @@
       - Recursion
       - LIFO
 
-- front: 'Floyd-Warshall'
+- front: 'Floyd-Warshall: All-Pairs Shortest Path'
   back: |
     def floyd_warshall(graph):
         dist = {ov: {dv: float('inf') for dv in graph} for ov in graph}
@@ -576,7 +576,7 @@
     Paradigms:
       - Dynamic Programming
 
-- front: 'Bellman-Ford'
+- front: 'Bellman-Ford: Single-Source Shortest Path'
   back: |
     def bellman_ford(graph, start_vertex):
         dist = {vertex: float('inf') for vertex in graph}
@@ -604,3 +604,109 @@
       - Detect negative weight cycles in a graph.
     Paradigms:
       - Dynamic Programming
+
+- front: 'Island Counting: DFS, Recursive'
+  back: |
+    def count_islands(grid):
+      if not grid: return 0
+      rows, cols = len(grid), len(grid[0])
+
+      def dfs(r, c):
+          if 0 <= r < rows and 0 <= c < cols and grid[r][c] == "1":
+              # Mark visited
+              grid[r][c] = "0"
+              # 4 directions
+              for dr, dc in [(1,0), (-1,0), (0,1), (0,-1)]:
+                  dfs(r + dr, c + dc)
+
+      islands = 0
+      for r in range(rows):
+          for c in range(cols):
+              if grid[r][c] == "1":
+                  dfs(r, c)
+                  islands += 1
+      return islands
+  time-complexity: O(n*m)
+  space-complexity: O(n*m)
+  description: |
+    The algorithm iterates through the grid, and when a "1" (land) is found, it performs a depth-first search (DFS) to mark all connected land cells as visited (by changing them to "0"). This effectively counts one island and prevents recounting. The process repeats for each unvisited "1".
+    Paradigms:
+      - Graph traversal (DFS-based)
+      - Recursion
+      - Flood fill algorithm
+
+- front: 'Island Counting: BFS'
+  back: |
+    from collections import deque
+
+    def count_islands(grid):
+        if not grid:
+            return 0
+
+        rows, cols = len(grid), len(grid[0])
+        islands = 0
+
+        for r in range(rows):
+            for c in range(cols):
+                if grid[r][c] == "1":
+                    islands += 1
+                    # Mark the cell as visited.
+                    grid[r][c] = "0"
+                    queue = deque([(r, c)])
+                    
+                    # Use BFS to visit all connected "1"s.
+                    while queue:
+                        cur_r, cur_c = queue.popleft()
+                        for dr, dc in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
+                            new_r, new_c = cur_r + dr, cur_c + dc
+                            if 0 <= new_r < rows and 0 <= new_c < cols and grid[new_r][new_c] == "1":
+                                grid[new_r][new_c] = "0"
+                                queue.append((new_r, new_c))
+        return islands
+
+  time-complexity: O(n*m)
+  space-complexity: O(n*m)
+  description: |
+    The algorithm iterates over each cell in the grid. When a land cell ("1") is encountered, it initiates a breadth-first search (BFS) to traverse all adjacent land cells, marking them as visited (by setting them to "0"). The BFS uses a queue to explore cells level-by-level, ensuring that all cells in one island are processed before moving on.
+    Paradigms:
+      - BFS
+      - Queue-based iteration
+      - Flood fill algorithm
+
+- front: 'Maze Solving: BFS'
+  back: |
+    from collections import deque
+
+    def solve_maze(maze, start, end):
+        rows, cols = len(maze), len(maze[0])
+        # Queue stores tuples: (current position, path taken so far)
+        queue = deque([(start, [start])])
+        
+        # Mark the start cell as visited to prevent revisiting.
+        maze[start[0]][start[1]] = "v"
+        
+        while queue:
+            (r, c), path = queue.popleft()
+            
+            # If we reach the end, return the path.
+            if (r, c) == end:
+                return path
+            
+            # Explore neighbors in all four directions.
+            for dr, dc in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
+                nr, nc = r + dr, c + dc
+                # Check if the new cell is within bounds and is an open path.
+                if 0 <= nr < rows and 0 <= nc < cols and maze[nr][nc] == "0":
+                    maze[nr][nc] = "v"  # Mark as visited.
+                    queue.append(((nr, nc), path + [(nr, nc)]))
+        
+        # If no path exists, return None.
+        return None
+  time-complexity: O(n*m)
+  space-complexity: O(n*m)
+  description: |
+    This BFS-based algorithm finds the shortest path in an unweighted maze. It starts at the initial cell and explores all reachable open cells ("0") level-by-level while tracking the path taken. When the destination is reached, the shortest path is returned. The maze is modified to mark visited cells (using a marker like "v") to avoid revisiting and looping.
+    Paradigms:
+      - BFS
+      - Shortest path finding in unweighted graphs
+      - Queue-based level-order search
