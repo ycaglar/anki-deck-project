@@ -85,8 +85,11 @@
         // Replace tabs with 4 spaces
         .replace(/\t/g, '    ')
         .split('\n')
+        .map((line) => {
+          // Trim trailing spaces while keeping leading spaces intact
+          return line.replace(/\s+$/, '');
+        })
         .filter((line) => {
-          line = line.trim();
           return line !== '' && !line.startsWith('#');
         })
         .join('\n')
