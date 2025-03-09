@@ -72,27 +72,35 @@
       return txt.value;
     }
 
-    // function normalizeCode(code) {
-    //   return code
-    //     .replace(/\t/g, '    ') // Replace tabs with 4 spaces
-    //     .split('\n')
-    //     .filter((line) => line.trim() !== '')
-    //     .join('\n');
-    // }
+    function replaceTabsWithSpaces(line, tabSize = 4) {
+      let result = "";
+      let column = 0;
+
+      for (let char of line) {
+        if (char === "\t") {
+          // Calculate how many spaces are needed to reach the next tab stop
+          let spacesToAdd = tabSize - (column % tabSize);
+          result += " ".repeat(spacesToAdd);
+          column += spacesToAdd;
+        } else {
+          result += char;
+          column++;
+        }
+      }
+
+      return result;
+    }
 
     function normalizeCode(code) {
       return code
-        // Replace tabs with 4 spaces
-        .replace(/\t/g, '    ')
-        .split('\n')
-        .map((line) => {
-          // Trim trailing spaces while keeping leading spaces intact
-          return line.replace(/\s+$/, '');
-        })
-        .filter((line) => {
-          return line !== '' && !line.startsWith('#');
-        })
-        .join('\n')
+        .split("\n")
+        // Convert tabs to spaces
+        .map((line) => replaceTabsWithSpaces(line))
+        // Trim trailing spaces
+        .map((line) => line.replace(/\s+$/, ""))
+        // Remove empty/comment lines
+        .filter((line) => line !== "" && !line.startsWith("#"))
+        .join("\n")
         .trimEnd();
     }
 
