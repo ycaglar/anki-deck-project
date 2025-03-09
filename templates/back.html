@@ -82,12 +82,15 @@
 
     function normalizeCode(code) {
       return code
-        .replace(/\t/g, '    ') // Replace tabs with 4 spaces
+        // Replace tabs with 4 spaces
+        .replace(/\t/g, '    ')
         .split('\n')
         .filter((line) => {
-          const trimmed = line.trim();
-          return trimmed !== '' && !trimmed.startsWith('#');
-        }).join('\n');
+          line = line.trim();
+          return line !== '' && !line.startsWith('#');
+        })
+        .join('\n')
+        .trimEnd();
     }
 
     (function () {
