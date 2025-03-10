@@ -185,14 +185,14 @@
 - front: 'Singly-Linked List: Insert at index'
   back: |
     def insert_at_index(head, index, val) -> ListNode:
-        if not head or index < 0:
-          return head
+        if index < 0:
+            return head
         new_node = ListNode(val)
         if index == 0:
             new_node.next = head
             return new_node
         ptr = head
-        for i in range(index - 1):
+        for _ in range(index - 1):
             if not ptr:
                 return head
             ptr = ptr.next
@@ -216,7 +216,7 @@
         if index == 0:
             return head.next
         ptr = head
-        for i in range(index - 1):
+        for _ in range(index - 1):
             if not ptr:
                 return head
             ptr = ptr.next
@@ -377,7 +377,7 @@
             curr_dist, vertex = heapq.heappop(heap)
             if curr_dist > dist[vertex]:
                 continue
-            for neighbor, weight in graph[vertex]:
+            for neighbor, weight in graph[vertex].items():
                 distance = curr_dist + weight
                 if distance < dist[neighbor]:
                     dist[neighbor] = distance
@@ -614,9 +614,9 @@
       rows, cols = len(grid), len(grid[0])
 
       def dfs(r, c):
-          if 0 <= r < rows and 0 <= c < cols and grid[r][c] == "1":
+          if 0 <= r < rows and 0 <= c < cols and grid[r][c] == '1':
               # Mark visited
-              grid[r][c] = "0"
+              grid[r][c] = '0'
               # 4 directions
               for dr, dc in [(1,0), (-1,0), (0,1), (0,-1)]:
                   dfs(r + dr, c + dc)
@@ -624,14 +624,14 @@
       islands = 0
       for r in range(rows):
           for c in range(cols):
-              if grid[r][c] == "1":
+              if grid[r][c] == '1':
                   dfs(r, c)
                   islands += 1
       return islands
   time-complexity: O(n*m)
   space-complexity: O(n*m)
   description: |
-    The algorithm iterates through the grid, and when a "1" (land) is found, it performs a depth-first search (DFS) to mark all connected land cells as visited (by changing them to "0"). This effectively counts one island and prevents recounting. The process repeats for each unvisited "1".
+    The algorithm iterates through the grid, and when a '1' (land) is found, it performs a depth-first search (DFS) to mark all connected land cells as visited (by changing them to '0'). This effectively counts one island and prevents recounting. The process repeats for each unvisited '1'.
     Paradigms:
       - Graph traversal (DFS-based)
       - Recursion
@@ -650,26 +650,26 @@
 
         for r in range(rows):
             for c in range(cols):
-                if grid[r][c] == "1":
+                if grid[r][c] == '1':
                     islands += 1
                     # Mark the cell as visited.
-                    grid[r][c] = "0"
+                    grid[r][c] = '0'
                     queue = deque([(r, c)])
                     
-                    # Use BFS to visit all connected "1"s.
+                    # Use BFS to visit all connected '1's.
                     while queue:
                         cur_r, cur_c = queue.popleft()
                         for dr, dc in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
                             new_r, new_c = cur_r + dr, cur_c + dc
-                            if 0 <= new_r < rows and 0 <= new_c < cols and grid[new_r][new_c] == "1":
-                                grid[new_r][new_c] = "0"
+                            if 0 <= new_r < rows and 0 <= new_c < cols and grid[new_r][new_c] == '1':
+                                grid[new_r][new_c] = '0'
                                 queue.append((new_r, new_c))
         return islands
 
   time-complexity: O(n*m)
   space-complexity: O(n*m)
   description: |
-    The algorithm iterates over each cell in the grid. When a land cell ("1") is encountered, it initiates a breadth-first search (BFS) to traverse all adjacent land cells, marking them as visited (by setting them to "0"). The BFS uses a queue to explore cells level-by-level, ensuring that all cells in one island are processed before moving on.
+    The algorithm iterates over each cell in the grid. When a land cell ('1') is encountered, it initiates a breadth-first search (BFS) to traverse all adjacent land cells, marking them as visited (by setting them to '0'). The BFS uses a queue to explore cells level-by-level, ensuring that all cells in one island are processed before moving on.
     Paradigms:
       - BFS
       - Queue-based iteration
@@ -685,7 +685,7 @@
         queue = deque([(start, [start])])
         
         # Mark the start cell as visited to prevent revisiting.
-        maze[start[0]][start[1]] = "v"
+        maze[start[0]][start[1]] = 'v'
         
         while queue:
             (r, c), path = queue.popleft()
@@ -698,8 +698,8 @@
             for dr, dc in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
                 nr, nc = r + dr, c + dc
                 # Check if the new cell is within bounds and is an open path.
-                if 0 <= nr < rows and 0 <= nc < cols and maze[nr][nc] == "0":
-                    maze[nr][nc] = "v"  # Mark as visited.
+                if 0 <= nr < rows and 0 <= nc < cols and maze[nr][nc] == '0':
+                    maze[nr][nc] = 'v'  # Mark as visited.
                     queue.append(((nr, nc), path + [(nr, nc)]))
         
         # If no path exists, return None.
@@ -707,7 +707,7 @@
   time-complexity: O(n*m)
   space-complexity: O(n*m)
   description: |
-    This BFS-based algorithm finds the shortest path in an unweighted maze. It starts at the initial cell and explores all reachable open cells ("0") level-by-level while tracking the path taken. When the destination is reached, the shortest path is returned. The maze is modified to mark visited cells (using a marker like "v") to avoid revisiting and looping.
+    This BFS-based algorithm finds the shortest path in an unweighted maze. It starts at the initial cell and explores all reachable open cells ('0') level-by-level while tracking the path taken. When the destination is reached, the shortest path is returned. The maze is modified to mark visited cells (using a marker like 'v') to avoid revisiting and looping.
     Paradigms:
       - BFS
       - Shortest path finding in unweighted graphs
